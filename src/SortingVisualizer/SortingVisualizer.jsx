@@ -1,4 +1,6 @@
 import React from 'react';
+import { Button } from 'semantic-ui-react'
+
 import './SortingVisualizer.css';
 
 const NUMBER_OF_ARRAY_BARS = 300;
@@ -25,6 +27,22 @@ export default class SortingVisualizer extends React.Component {
     this.setState({ array });
   }
 
+  mergeSort() {
+
+  }
+
+  quickSort() {
+
+  }
+
+  heapSort() {
+
+  }
+
+  bubbleSort() {
+
+  }
+
   render() {
     const { array } = this.state;
 
@@ -38,6 +56,21 @@ export default class SortingVisualizer extends React.Component {
               height: `${value}px`,
             }}></div>
         ))}
+        <Button primary onClick={() => this.resetArray()}>
+          Generate new array
+        </Button>
+        <Button secondary onClick={() => this.mergeSort()}>
+          Merge Sort
+        </Button>
+        <Button secondary onClick={() => this.quickSort()}>
+          Quick Sort
+        </Button>
+        <Button secondary onClick={() => this.heapSort()}>
+          Heap Sort
+        </Button>
+        <Button secondary onClick={() => this.bubbleSort()}>
+          Bubble Sort
+        </Button>
       </div>
     );
   }
