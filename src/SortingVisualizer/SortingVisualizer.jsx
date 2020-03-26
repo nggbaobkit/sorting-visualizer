@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'semantic-ui-react'
 
 import './SortingVisualizer.css';
-import { getMergeSortAnimations } from '../SortingAlgorithms/SortingAlgorithms.js';
+import { getMergeSortAnimations } from '../SortingAlgorithms/MergeSort.js';
 
 const NUMBER_OF_ARRAY_BARS = 200;
 const ANIMATION_SPEED_MS = 3;
