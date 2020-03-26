@@ -1,11 +1,30 @@
-.array-container {
-  position: absolute;
-  left: 100px;
-  /* top: 100px; */
+.body-container {
+}
+
+.header-container {
+  background-color: #1f1f1f;
+}
+
+.header-content {
+  display: inline-block;
+  color: white;
+  padding: 16px;
+}
+
+.bar-container {
+  padding-top: 16px;
+  background-color: #3c3c47;
+  text-align: center;
 }
 
 .array-bar {
   width: 2px;
   display: inline-block;
   margin: 0 1px;
+}
+
+.button-container {
+  padding: 16px 0 16px 0;
+  background-color: #3c3c47;
+  text-align: center;
 }
