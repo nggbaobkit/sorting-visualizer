@@ -1,14 +1,14 @@
 import React from 'react';
-import { Button } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react';
 
 import './SortingVisualizer.css';
 import { getMergeSortAnimations } from '../SortingAlgorithms/MergeSort.js';
+import ArrayBar from '../ArrayBar/ArrayBar';
 
-const NUMBER_OF_ARRAY_BARS = 200;
 const ANIMATION_SPEED_MS = 3;
 const PRIMARY_COLOR = '#b07d30';
 const SECONDARY_COLOR = '#25c1f5';
-
+const MAX_VALUE_ARRAY = 480;
 
 export default class SortingVisualizer extends React.Component {
   constructor(props) {
@@ -16,18 +16,27 @@ export default class SortingVisualizer extends React.Component {
 
     this.state = {
       array: [],
+      arraySize: 0
     };
   }
 
   componentDidMount() {
+    this.setState({ arraySize: 130 });
     this.resetArray();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.arraySize !== this.state.arraySize) {
+      this.resetArray();
+    }
   }
 
   resetArray() {
     const array = [];
-    for (let i = 0; i < NUMBER_OF_ARRAY_BARS; i++) {
-      array.push(randomIntFromInterval(5, 600));
+    for (let i = 0; i < this.state.arraySize; i++) {
+      array.push(randomIntFromInterval(5, MAX_VALUE_ARRAY));
     }
+    array[randomIntFromInterval(0, this.state.arraySize)] = MAX_VALUE_ARRAY;
     this.setState({ array });
   }
 
@@ -62,19 +71,19 @@ export default class SortingVisualizer extends React.Component {
       <div>
         <div className='header-container'>
           <h1 className='header-content'>Sorting Visualizer</h1>
+          <h3 className='header-content' style={{ paddingLeft: '64px' }}>
+            Adjusting array size
+          </h3>
+          <input
+            type='range'
+            min='5'
+            max='250'
+            value={this.state.arraySize}
+            id='adjustArraySize'
+            onChange={e => this.setState({ arraySize: e.target.value })}
+          />
         </div>
-        <div className='bar-container'>
-          {array.map((value, idx) => (
-            <div
-              className='array-bar'
-              key={idx}
-              style={{
-                height: `${value}px`,
-                backgroundColor: PRIMARY_COLOR
-              }}
-            ></div>
-          ))}
-        </div>
+        <ArrayBar array={array}></ArrayBar>
         <div className='button-container'>
           <Button primary onClick={() => this.resetArray()}>
             Generate new array

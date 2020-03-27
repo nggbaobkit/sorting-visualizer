@@ -1,0 +1,11 @@
+.bar-container {
+  padding-top: 16px;
+  background-color: #3c3c47;
+  text-align: center;
+  height: 540px;
+}
+
+.array-bar {
+  display: inline-block;
+  margin: 0 1px;
+}

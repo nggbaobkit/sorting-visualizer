@@ -8,18 +8,6 @@
   padding: 16px;
 }
 
-.bar-container {
-  padding-top: 16px;
-  background-color: #3c3c47;
-  text-align: center;
-}
-
-.array-bar {
-  width: 2px;
-  display: inline-block;
-  margin: 0 1px;
-}
-
 .button-container {
   padding: 16px 0 16px 0;
   background-color: #3c3c47;
