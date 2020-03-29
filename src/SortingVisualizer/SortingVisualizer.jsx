@@ -67,8 +67,9 @@ export default class SortingVisualizer extends React.Component {
   }
 
   bubbleSort() {
+    let swappedArray = this.state.array.slice();
     const animations = getBubbleSortAnimations(this.state.array);
-    for (let i = 1; i < animations.length; i++) {
+    for (let i = 0; i < animations.length; i++) {
       let arrayBars = document.getElementsByClassName('array-bar');
       let isColorChange = i % 3 !== 2;
 
@@ -86,10 +87,9 @@ export default class SortingVisualizer extends React.Component {
           const [barOneIdx, barTwoIdx, newOneHeight, newTwoHeight] = animations[
             i
           ];
-          const barOneStyle = arrayBars[barOneIdx].style;
-          barOneStyle.height = `${newOneHeight}px`;
-          const barTwoStyle = arrayBars[barTwoIdx].style;
-          barTwoStyle.height = `${newTwoHeight}px`;
+          swappedArray[barOneIdx] = newOneHeight;
+          swappedArray[barTwoIdx] = newTwoHeight;
+          this.setState({ array: swappedArray });
         }, i * ANIMATION_SPEED_MS);
       }
     }
