@@ -3,12 +3,14 @@ import { Button } from 'semantic-ui-react';
 
 import './SortingVisualizer.css';
 import { getMergeSortAnimations } from '../SortingAlgorithms/MergeSort.js';
+import { getBubbleSortAnimations } from '../SortingAlgorithms/BubbleSort.js';
 import ArrayBar from '../ArrayBar/ArrayBar';
 
-const ANIMATION_SPEED_MS = 3;
+const ANIMATION_SPEED_MS = 10;
 const PRIMARY_COLOR = '#b07d30';
 const SECONDARY_COLOR = '#25c1f5';
 const MAX_VALUE_ARRAY = 480;
+const INITIAL_ARRAY_SIZE = 30;
 
 export default class SortingVisualizer extends React.Component {
   constructor(props) {
@@ -21,7 +23,7 @@ export default class SortingVisualizer extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ arraySize: 130 });
+    this.setState({ arraySize: INITIAL_ARRAY_SIZE });
     this.resetArray();
   }
 
@@ -64,6 +66,35 @@ export default class SortingVisualizer extends React.Component {
     }
   }
 
+  bubbleSort() {
+    const animations = getBubbleSortAnimations(this.state.array);
+    for (let i = 1; i < animations.length; i++) {
+      let arrayBars = document.getElementsByClassName('array-bar');
+      let isColorChange = i % 3 !== 2;
+
+      if (isColorChange) {
+        let [barOneIdx, barTwoIdx] = animations[i];
+        let barOneStyle = arrayBars[barOneIdx].style;
+        let barTwoStyle = arrayBars[barTwoIdx].style;
+        const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+        setTimeout(() => {
+          barOneStyle.backgroundColor = color;
+          barTwoStyle.backgroundColor = color;
+        }, i * ANIMATION_SPEED_MS);
+      } else {
+        setTimeout(() => {
+          const [barOneIdx, barTwoIdx, newOneHeight, newTwoHeight] = animations[
+            i
+          ];
+          const barOneStyle = arrayBars[barOneIdx].style;
+          barOneStyle.height = `${newOneHeight}px`;
+          const barTwoStyle = arrayBars[barTwoIdx].style;
+          barTwoStyle.height = `${newTwoHeight}px`;
+        }, i * ANIMATION_SPEED_MS);
+      }
+    }
+  }
+
   render() {
     const { array } = this.state;
 
@@ -90,6 +121,9 @@ export default class SortingVisualizer extends React.Component {
           </Button>
           <Button secondary onClick={() => this.mergeSort()}>
             Merge Sort!
+          </Button>
+          <Button secondary onClick={() => this.bubbleSort()}>
+            Bubble Sort!
           </Button>
         </div>
       </div>
