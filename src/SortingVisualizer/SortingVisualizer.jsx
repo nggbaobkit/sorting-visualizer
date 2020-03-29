@@ -5,6 +5,7 @@ import './SortingVisualizer.css';
 import { getMergeSortAnimations } from '../SortingAlgorithms/MergeSort.js';
 import { getBubbleSortAnimations } from '../SortingAlgorithms/BubbleSort.js';
 import { getQuickSortAnimations } from '../SortingAlgorithms/QuickSort.js';
+import { getHeapSortAnimations } from '../SortingAlgorithms/HeapSort.js';
 import ArrayBar from '../ArrayBar/ArrayBar';
 
 const ANIMATION_SPEED_MS = 10;
@@ -125,6 +126,35 @@ export default class SortingVisualizer extends React.Component {
     }
   }
 
+  heapSort() {
+    let swappedArray = this.state.array.slice();
+    const animations = getHeapSortAnimations(this.state.array);
+    for (let i = 0; i < animations.length; i++) {
+      let arrayBars = document.getElementsByClassName('array-bar');
+      let isColorChange = i % 3 !== 2;
+
+      if (isColorChange) {
+        let [barOneIdx, barTwoIdx] = animations[i];
+        let barOneStyle = arrayBars[barOneIdx].style;
+        let barTwoStyle = arrayBars[barTwoIdx].style;
+        const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+        setTimeout(() => {
+          barOneStyle.backgroundColor = color;
+          barTwoStyle.backgroundColor = color;
+        }, i * ANIMATION_SPEED_MS);
+      } else {
+        setTimeout(() => {
+          const [barOneIdx, barTwoIdx, newOneHeight, newTwoHeight] = animations[
+            i
+          ];
+          swappedArray[barOneIdx] = newOneHeight;
+          swappedArray[barTwoIdx] = newTwoHeight;
+          this.setState({ array: swappedArray });
+        }, i * ANIMATION_SPEED_MS);
+      }
+    }
+  }
+
   render() {
     const { array } = this.state;
 
@@ -157,6 +187,9 @@ export default class SortingVisualizer extends React.Component {
           </Button>
           <Button secondary onClick={() => this.quickSort()}>
             Quick Sort!
+          </Button>
+          <Button secondary onClick={() => this.heapSort()}>
+            Heap Sort!
           </Button>
         </div>
       </div>
