@@ -1,7 +1,8 @@
 import { swap, pushAnimations } from './Utilities';
 
-export function getBubbleSortAnimations(array) {
+export function getBubbleSortAnimations(arr) {
   let animations = [];
+  let array = arr.slice();
 
   for (let i = array.length - 1; i > 0; i--) {
     for (let j = 0; j < i; j++) {

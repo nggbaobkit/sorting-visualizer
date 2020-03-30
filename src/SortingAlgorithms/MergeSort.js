@@ -1,4 +1,5 @@
-export function getMergeSortAnimations(array) {
+export function getMergeSortAnimations(arr) {
+  let array = arr.slice();
   const animations = [];
   if (array.length <= 1) return array;
   const auxiliaryArray = array.slice();
@@ -35,23 +36,23 @@ function doMerge(
     animations.push([i, j]);
     animations.push([i, j]);
     if (auxiliaryArray[i] <= auxiliaryArray[j]) {
-      animations.push([k, auxiliaryArray[i]]);
+      animations.push([k, k, auxiliaryArray[i], auxiliaryArray[i]]);
       mainArray[k++] = auxiliaryArray[i++];
     } else {
-      animations.push([k, auxiliaryArray[j]]);
+      animations.push([k, k, auxiliaryArray[j], auxiliaryArray[j]]);
       mainArray[k++] = auxiliaryArray[j++];
     }
   }
   while (i <= middleIdx) {
     animations.push([i, i]);
     animations.push([i, i]);
-    animations.push([k, auxiliaryArray[i]]);
+    animations.push([k, k, auxiliaryArray[i], auxiliaryArray[i]]);
     mainArray[k++] = auxiliaryArray[i++];
   }
   while (j <= endIdx) {
     animations.push([j, j]);
     animations.push([j, j]);
-    animations.push([k, auxiliaryArray[j]]);
+    animations.push([k, k, auxiliaryArray[j], auxiliaryArray[j]]);
     mainArray[k++] = auxiliaryArray[j++];
   }
 }

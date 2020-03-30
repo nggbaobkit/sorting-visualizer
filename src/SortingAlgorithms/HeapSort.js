@@ -6,7 +6,7 @@ export function getHeapSortAnimations(array) {
   return animations;
 }
 
-function heap_root(array, arrayLength, i, animations) {
+function heapify(array, arrayLength, i, animations) {
   var left = 2 * i + 1;
   var right = 2 * i + 2;
   var max = i;
@@ -22,20 +22,21 @@ function heap_root(array, arrayLength, i, animations) {
   if (max !== i) {
     pushAnimations(animations, array, i, max);
     swap(array, i, max);
-    heap_root(array, arrayLength, max, animations);
+    heapify(array, arrayLength, max, animations);
   }
 }
 
-function doHeapSort(array, animations) {
+function doHeapSort(arr, animations) {
+  let array = arr.slice();
   let arrayLength = array.length;
 
   for (var i = Math.floor(arrayLength / 2); i >= 0; i -= 1) {
-    heap_root(array, arrayLength, i, animations);
+    heapify(array, arrayLength, i, animations);
   }
 
   for (i = array.length - 1; i > 0; i--) {
     pushAnimations(animations, array, 0, i);
     swap(array, 0, i);
-    heap_root(array, i, 0, animations);
+    heapify(array, i, 0, animations);
   }
 }

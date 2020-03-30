@@ -21,7 +21,8 @@ function partition(arr, start, end, animations) {
   return pivotIndex;
 }
 
-function doQuickSort(array, start, end, animations) {
+function doQuickSort(arr, start, end, animations) {
+  let array = arr.slice();
   if (start >= end) {
     return;
   }
