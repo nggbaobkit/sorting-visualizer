@@ -121,6 +121,7 @@ export default class SortingVisualizer extends React.Component {
             max='250'
             value={this.state.arraySize}
             id='adjustArraySize'
+            disabled={this.state.isDisabled ? 'disabled' : ''}
             onChange={e => this.setState({ arraySize: e.target.value })}
           />
         </div>
