@@ -19,7 +19,8 @@ export default class SortingVisualizer extends React.Component {
 
     this.state = {
       array: [],
-      arraySize: 0
+      arraySize: 0,
+      isDisabled: false
     };
   }
 
@@ -53,6 +54,7 @@ export default class SortingVisualizer extends React.Component {
   }
 
   performAnimations(animations) {
+    this.setState({ isDisabled: true });
     let swappedArray = this.state.array.slice();
     for (let i = 0; i < animations.length; i++) {
       let arrayBars = document.getElementsByClassName('array-bar');
@@ -78,6 +80,9 @@ export default class SortingVisualizer extends React.Component {
         }, i * this.getAnimationSpeed());
       }
     }
+    setTimeout(() => {
+      this.setState({ isDisabled: false });
+    }, animations.length * this.getAnimationSpeed());
   }
 
   mergeSort() {
@@ -121,19 +126,39 @@ export default class SortingVisualizer extends React.Component {
         </div>
         <ArrayBar array={array}></ArrayBar>
         <div className='button-container'>
-          <Button primary onClick={() => this.resetArray()}>
+          <Button
+            primary
+            disabled={this.state.isDisabled}
+            onClick={() => this.resetArray()}
+          >
             Generate new array
           </Button>
-          <Button secondary onClick={() => this.mergeSort()}>
+          <Button
+            secondary
+            disabled={this.state.isDisabled}
+            onClick={() => this.mergeSort()}
+          >
             Merge Sort!
           </Button>
-          <Button secondary onClick={() => this.bubbleSort()}>
+          <Button
+            secondary
+            disabled={this.state.isDisabled}
+            onClick={() => this.bubbleSort()}
+          >
             Bubble Sort!
           </Button>
-          <Button secondary onClick={() => this.quickSort()}>
+          <Button
+            secondary
+            disabled={this.state.isDisabled}
+            onClick={() => this.quickSort()}
+          >
             Quick Sort!
           </Button>
-          <Button secondary onClick={() => this.heapSort()}>
+          <Button
+            secondary
+            disabled={this.state.isDisabled}
+            onClick={() => this.heapSort()}
+          >
             Heap Sort!
           </Button>
         </div>
