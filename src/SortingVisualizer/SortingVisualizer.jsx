@@ -11,7 +11,7 @@ import ArrayBar from '../ArrayBar/ArrayBar';
 const PRIMARY_COLOR = '#b07d30';
 const SECONDARY_COLOR = '#25c1f5';
 const MAX_VALUE_ARRAY = 480;
-const INITIAL_ARRAY_SIZE = 30;
+const INITIAL_ARRAY_SIZE = 200;
 
 export default class SortingVisualizer extends React.Component {
   constructor(props) {
