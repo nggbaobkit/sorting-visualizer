@@ -111,6 +111,7 @@ export default class SortingVisualizer extends React.Component {
     return (
       <div>
         <div className='header-container'>
+          <img className='app-logo' src='columns.png' alt='logo' />
           <h1 className='header-content'>Sorting Visualizer</h1>
           <h3 className='header-content' style={{ paddingLeft: '64px' }}>
             Adjusting array size
@@ -124,6 +125,13 @@ export default class SortingVisualizer extends React.Component {
             disabled={this.state.isDisabled ? 'disabled' : ''}
             onChange={e => this.setState({ arraySize: e.target.value })}
           />
+          {/* <a target='_blank' href='https://icons8.com/icons/set/combo-chart'>
+            Combo Chart icon
+          </a>{' '}
+          icon by{' '}
+          <a target='_blank' href='https://icons8.com'>
+            Icons8
+          </a> */}
         </div>
         <ArrayBar array={array}></ArrayBar>
         <div className='button-container'>
