@@ -9,6 +9,7 @@ import { getQuickSortAnimations } from '../SortingAlgorithms/QuickSort.js';
 import { getHeapSortAnimations } from '../SortingAlgorithms/HeapSort.js';
 import ArrayBar from '../ArrayBar/ArrayBar';
 import Footer from '../Footer/Footer';
+import LogoPic from '../img/columns.png';
 
 import variables from '../styles/core.scss';
 
@@ -117,7 +118,7 @@ export default class SortingVisualizer extends React.Component {
         <div className='header-container'>
           <Fade top>
             <h1 className='header-content'>
-              <img className='app-logo' src='columns.png' alt='logo' />
+              <img className='app-logo' src={LogoPic} alt='logo' />
               Sorting Visualizer
             </h1>
           </Fade>
