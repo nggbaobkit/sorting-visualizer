@@ -1,0 +1,12 @@
+.footer-container {
+  background-color: #1f1f1f;
+  text-align: center;
+  min-height: 100px;
+  padding: auto;
+}
+
+.footer-content {
+  display: inline-block;
+  color: white;
+  padding-top: 16px;
+}

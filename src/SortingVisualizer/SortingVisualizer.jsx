@@ -7,10 +7,11 @@ import { getBubbleSortAnimations } from '../SortingAlgorithms/BubbleSort.js';
 import { getQuickSortAnimations } from '../SortingAlgorithms/QuickSort.js';
 import { getHeapSortAnimations } from '../SortingAlgorithms/HeapSort.js';
 import ArrayBar from '../ArrayBar/ArrayBar';
+import Footer from '../Footer/Footer';
 
 const PRIMARY_COLOR = '#b07d30';
 const SECONDARY_COLOR = '#25c1f5';
-const MAX_VALUE_ARRAY = 480;
+const MAX_VALUE_ARRAY = 380;
 const INITIAL_ARRAY_SIZE = 200;
 
 export default class SortingVisualizer extends React.Component {
@@ -114,7 +115,7 @@ export default class SortingVisualizer extends React.Component {
           <img className='app-logo' src='columns.png' alt='logo' />
           <h1 className='header-content'>Sorting Visualizer</h1>
           <h3 className='header-content' style={{ paddingLeft: '64px' }}>
-            Adjusting array size
+            <i class='fas fa-sliders-h'></i> Adjusting array size
           </h3>
           <input
             type='range'
@@ -140,7 +141,7 @@ export default class SortingVisualizer extends React.Component {
             disabled={this.state.isDisabled}
             onClick={() => this.resetArray()}
           >
-            Generate new array
+            <i className='fa fa-bolt left' /> Generate new array
           </Button>
           <Button
             secondary
@@ -171,6 +172,7 @@ export default class SortingVisualizer extends React.Component {
             Heap Sort!
           </Button>
         </div>
+        <Footer />
       </div>
     );
   }
