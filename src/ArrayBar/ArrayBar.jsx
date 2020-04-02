@@ -1,7 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import './ArrayBar.css';
-const PRIMARY_COLOR = '#b07d30';
+import './ArrayBar.scss';
 
 const ArrayBar = props => {
   const array = props.array;
@@ -50,7 +49,6 @@ const ArrayBar = props => {
           style={{
             height: `${value}px`,
             width: width,
-            backgroundColor: PRIMARY_COLOR,
             marginLeft: margin,
             marginRigh: margin,
             color: color,

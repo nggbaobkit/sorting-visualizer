@@ -1,0 +1,15 @@
+@import '../styles/core.scss';
+
+.bar-container {
+  padding-top: 16px;
+  background-color: $secondary-color;
+  text-align: center;
+  height: calc(
+    100vh - #{$header-height} - #{$footer-height} - #{$button-container-height}
+  );
+}
+
+.array-bar {
+  display: inline-block;
+  background-color: $primary-color;
+}

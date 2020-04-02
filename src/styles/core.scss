@@ -1,0 +1,15 @@
+$primary-color: #00203fcc;
+$secondary-color: #d7f0e599;
+$sorting-color: #f2aa4c;
+$text-color: white;
+$footer-color: #101820e6;
+
+$header-height: 70px;
+$footer-height: 120px;
+$button-container-height: 64px;
+
+:export {
+  primaryColor: $primary-color;
+  secondaryColor: $secondary-color;
+  sortingColor: $sorting-color;
+}

@@ -1,0 +1,25 @@
+@import '../styles/core.scss';
+
+.header-container {
+  background-color: $primary-color;
+  height: $header-height;
+}
+
+.header-content {
+  display: inline-block;
+  color: $text-color;
+  padding: 0 16px;
+}
+
+.app-logo {
+  margin: 8px 8px -8px 16px;
+  height: 42px;
+  width: 42px;
+}
+
+.button-container {
+  margin: auto;
+  background-color: $secondary-color;
+  text-align: center;
+  height: $button-container-height;
+}

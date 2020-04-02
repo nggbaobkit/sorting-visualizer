@@ -1,7 +1,8 @@
 import React from 'react';
+import Fade from 'react-reveal/Fade';
 import { Button } from 'semantic-ui-react';
 
-import './SortingVisualizer.css';
+import './SortingVisualizer.scss';
 import { getMergeSortAnimations } from '../SortingAlgorithms/MergeSort.js';
 import { getBubbleSortAnimations } from '../SortingAlgorithms/BubbleSort.js';
 import { getQuickSortAnimations } from '../SortingAlgorithms/QuickSort.js';
@@ -9,10 +10,12 @@ import { getHeapSortAnimations } from '../SortingAlgorithms/HeapSort.js';
 import ArrayBar from '../ArrayBar/ArrayBar';
 import Footer from '../Footer/Footer';
 
-const PRIMARY_COLOR = '#b07d30';
-const SECONDARY_COLOR = '#25c1f5';
-const MAX_VALUE_ARRAY = 380;
-const INITIAL_ARRAY_SIZE = 200;
+import variables from '../styles/core.scss';
+
+const PRIMARY_COLOR = variables.primaryColor;
+const SORTING_COLOR = variables.sortingColor;
+const MAX_VALUE_ARRAY = 400;
+const INITIAL_ARRAY_SIZE = 75;
 
 export default class SortingVisualizer extends React.Component {
   constructor(props) {
@@ -65,7 +68,7 @@ export default class SortingVisualizer extends React.Component {
         let [barOneIdx, barTwoIdx] = animations[i];
         let barOneStyle = arrayBars[barOneIdx].style;
         let barTwoStyle = arrayBars[barTwoIdx].style;
-        const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+        const color = i % 3 === 0 ? SORTING_COLOR : PRIMARY_COLOR;
         setTimeout(() => {
           barOneStyle.backgroundColor = color;
           barTwoStyle.backgroundColor = color;
@@ -112,27 +115,24 @@ export default class SortingVisualizer extends React.Component {
     return (
       <div>
         <div className='header-container'>
-          <img className='app-logo' src='columns.png' alt='logo' />
-          <h1 className='header-content'>Sorting Visualizer</h1>
+          <Fade top>
+            <h1 className='header-content'>
+              <img className='app-logo' src='columns.png' alt='logo' />
+              Sorting Visualizer
+            </h1>
+          </Fade>
           <h3 className='header-content' style={{ paddingLeft: '64px' }}>
             <i class='fas fa-sliders-h'></i> Adjusting array size
           </h3>
           <input
             type='range'
             min='5'
-            max='250'
+            max='150'
             value={this.state.arraySize}
             id='adjustArraySize'
             disabled={this.state.isDisabled ? 'disabled' : ''}
             onChange={e => this.setState({ arraySize: e.target.value })}
           />
-          {/* <a target='_blank' href='https://icons8.com/icons/set/combo-chart'>
-            Combo Chart icon
-          </a>{' '}
-          icon by{' '}
-          <a target='_blank' href='https://icons8.com'>
-            Icons8
-          </a> */}
         </div>
         <ArrayBar array={array}></ArrayBar>
         <div className='button-container'>

@@ -1,12 +1,14 @@
+@import '../styles/core.scss';
+
 .footer-container {
-  background-color: #1f1f1f;
+  background-color: $footer-color;
   text-align: center;
-  min-height: 100px;
+  height: $footer-height;
   padding: auto;
 }
 
 .footer-content {
   display: inline-block;
   color: white;
-  padding-top: 16px;
+  padding-top: 32px;
 }
