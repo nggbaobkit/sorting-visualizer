@@ -33,6 +33,8 @@ export default class SortingVisualizer extends React.Component {
       intervalId: null,
       isArraySorted: false,
       lastSortAlgo: '',
+      animationIdx: 0,
+      isPaused: false,
     };
   }
 
@@ -57,6 +59,7 @@ export default class SortingVisualizer extends React.Component {
   }
 
   performAnimations(animations) {
+    console.log(animations);
     if (animations.length === 0) {
       this.setState({ isArraySorted: true });
       return;
@@ -64,7 +67,7 @@ export default class SortingVisualizer extends React.Component {
     this.setState({ isDisabled: true });
     let swappedArray = this.state.array.slice();
     let arrayBars = document.getElementsByClassName('array-bar');
-    let i = 0;
+    let i = this.state.animationIdx;
 
     this.setState({
       intervalId: setInterval(() => {
@@ -91,8 +94,10 @@ export default class SortingVisualizer extends React.Component {
           clearInterval(this.state.intervalId);
           i = 0;
           this.setState({ isDisabled: false });
+          this.setState({ animationIdx: 0 });
           return;
         }
+        this.setState({ animationIdx: i });
       }, 5),
     });
   }
@@ -158,9 +163,44 @@ export default class SortingVisualizer extends React.Component {
     this.setState({ array: newArray }, callback);
   };
 
-  stopAnimation = () => {
+  handleStopAnimation = () => {
     clearInterval(this.state.intervalId);
     this.setState({ isDisabled: false });
+    this.setState({ animationIdx: 0 });
+    this.setState({ isPaused: false });
+  };
+
+  handlePauseAnimation = () => {
+    if (this.state.isPaused) {
+      this.resumeAnimation();
+    } else {
+      this.pauseAnimation();
+    }
+  };
+
+  pauseAnimation = () => {
+    clearInterval(this.state.intervalId);
+    this.setState({ isPaused: true });
+  };
+
+  resumeAnimation = () => {
+    switch (this.state.lastSortAlgo) {
+      case MERGE_SORT:
+        this.mergeSort();
+        break;
+      case BUBBLE_SORT:
+        this.bubbleSort();
+        break;
+      case QUICK_SORT:
+        this.quickSort();
+        break;
+      case HEAP_SORT:
+        this.heapSort();
+        break;
+      default:
+        console.error(this.state.lastSortAlgo);
+    }
+    this.setState({ isPaused: false });
   };
 
   render() {
@@ -237,9 +277,17 @@ export default class SortingVisualizer extends React.Component {
           <Button
             color='red'
             disabled={!this.state.isDisabled}
-            onClick={() => this.stopAnimation()}
+            onClick={() => this.handleStopAnimation()}
           >
             <i class='fas fa-stop'></i> Stop
+          </Button>
+          <Button
+            disabled={this.state.animationIdx === 0}
+            color='orange'
+            onClick={() => this.handlePauseAnimation()}
+          >
+            <i class='fas fa-pause'></i>{' '}
+            {this.state.isPaused ? 'Resume' : 'Pause'}
           </Button>
         </div>
         <Footer />
