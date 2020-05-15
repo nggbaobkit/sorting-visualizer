@@ -1,6 +1,9 @@
-import { swap, pushAnimations } from './Utilities';
+import { swap, pushAnimations, isSorted } from './Utilities';
 
 export function getHeapSortAnimations(array) {
+  if (isSorted(array)) {
+    return [];
+  }
   let animations = [];
   doHeapSort(array, animations);
   return animations;
