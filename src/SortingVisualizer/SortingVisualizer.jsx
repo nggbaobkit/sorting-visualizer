@@ -158,6 +158,11 @@ export default class SortingVisualizer extends React.Component {
     this.setState({ array: newArray }, callback);
   };
 
+  stopAnimation = () => {
+    clearInterval(this.state.intervalId);
+    this.setState({ isDisabled: false });
+  };
+
   render() {
     const { array } = this.state;
 
@@ -228,6 +233,13 @@ export default class SortingVisualizer extends React.Component {
             onClick={() => this.heapSort()}
           >
             Heap Sort!
+          </Button>
+          <Button
+            color='red'
+            disabled={!this.state.isDisabled}
+            onClick={() => this.stopAnimation()}
+          >
+            <i class='fas fa-stop'></i> Stop
           </Button>
         </div>
         <Footer />
