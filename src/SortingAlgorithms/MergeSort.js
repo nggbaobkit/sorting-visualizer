@@ -1,4 +1,9 @@
+import { isSorted } from './Utilities';
+
 export function getMergeSortAnimations(arr) {
+  if (isSorted(arr)) {
+    return [];
+  }
   let array = arr.slice();
   const animations = [];
   if (array.length <= 1) return array;

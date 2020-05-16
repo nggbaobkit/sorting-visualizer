@@ -10,7 +10,7 @@ export default class Footer extends Component {
           <div className='footer-content'>
             <Fade left>
               <h4>
-                Copyright <i className='fa fa-copyright' /> 2018. All rights
+                Copyright <i className='fa fa-copyright' /> 2020. All rights
                 reserved.
               </h4>
             </Fade>

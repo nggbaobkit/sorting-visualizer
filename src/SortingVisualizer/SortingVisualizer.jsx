@@ -1,6 +1,6 @@
 import React from 'react';
 import Fade from 'react-reveal/Fade';
-import { Button } from 'semantic-ui-react';
+import { Button, Confirm } from 'semantic-ui-react';
 
 import './SortingVisualizer.scss';
 import { getMergeSortAnimations } from '../SortingAlgorithms/MergeSort.js';
@@ -17,6 +17,10 @@ const PRIMARY_COLOR = variables.primaryColor;
 const SORTING_COLOR = variables.sortingColor;
 const MAX_VALUE_ARRAY = 400;
 const INITIAL_ARRAY_SIZE = 75;
+const MERGE_SORT = 'Merge Sort';
+const BUBBLE_SORT = 'Bubble Sort';
+const QUICK_SORT = 'Quick Sort';
+const HEAP_SORT = 'Heap Sort';
 
 export default class SortingVisualizer extends React.Component {
   constructor(props) {
@@ -24,19 +28,24 @@ export default class SortingVisualizer extends React.Component {
 
     this.state = {
       array: [],
-      arraySize: 0,
-      isDisabled: false
+      arraySize: INITIAL_ARRAY_SIZE,
+      isDisabled: false,
+      intervalId: null,
+      isArraySorted: false,
+      lastSortAlgo: '',
+      animationIdx: 0,
+      isPaused: false,
     };
   }
 
   componentDidMount() {
     this.setState({ arraySize: INITIAL_ARRAY_SIZE });
-    this.resetArray();
+    this.setState({ array: this.generateRandomArray() });
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.arraySize !== this.state.arraySize) {
-      this.resetArray();
+      this.setState({ array: this.generateRandomArray() });
     }
   }
 
@@ -49,66 +58,150 @@ export default class SortingVisualizer extends React.Component {
     return speed;
   }
 
-  resetArray() {
-    const array = [];
-    for (let i = 0; i < this.state.arraySize; i++) {
-      array.push(randomIntFromInterval(5, MAX_VALUE_ARRAY));
-    }
-    array[randomIntFromInterval(0, this.state.arraySize)] = MAX_VALUE_ARRAY;
-    this.setState({ array });
-  }
-
   performAnimations(animations) {
+    console.log(animations);
+    if (animations.length === 0) {
+      this.setState({ isArraySorted: true });
+      return;
+    }
     this.setState({ isDisabled: true });
     let swappedArray = this.state.array.slice();
-    for (let i = 0; i < animations.length; i++) {
-      let arrayBars = document.getElementsByClassName('array-bar');
-      let isColorChange = i % 3 !== 2;
+    let arrayBars = document.getElementsByClassName('array-bar');
+    let i = this.state.animationIdx;
 
-      if (isColorChange) {
-        let [barOneIdx, barTwoIdx] = animations[i];
-        let barOneStyle = arrayBars[barOneIdx].style;
-        let barTwoStyle = arrayBars[barTwoIdx].style;
-        const color = i % 3 === 0 ? SORTING_COLOR : PRIMARY_COLOR;
-        setTimeout(() => {
+    this.setState({
+      intervalId: setInterval(() => {
+        const isColorChange = i % 3 !== 2;
+
+        if (isColorChange) {
+          let [barOneIdx, barTwoIdx] = animations[i];
+          let barOneStyle = arrayBars[barOneIdx].style;
+          let barTwoStyle = arrayBars[barTwoIdx].style;
+          const color = i % 3 === 0 ? SORTING_COLOR : PRIMARY_COLOR;
           barOneStyle.backgroundColor = color;
           barTwoStyle.backgroundColor = color;
-        }, i * this.getAnimationSpeed());
-      } else {
-        setTimeout(() => {
+        } else {
           const [barOneIdx, barTwoIdx, newOneHeight, newTwoHeight] = animations[
             i
           ];
           swappedArray[barOneIdx] = newOneHeight;
           swappedArray[barTwoIdx] = newTwoHeight;
           this.setState({ array: swappedArray });
-        }, i * this.getAnimationSpeed());
-      }
-    }
-    setTimeout(() => {
-      this.setState({ isDisabled: false });
-    }, animations.length * this.getAnimationSpeed());
+        }
+
+        i += 1;
+        if (i >= animations.length) {
+          clearInterval(this.state.intervalId);
+          i = 0;
+          this.setState({ isDisabled: false });
+          this.setState({ animationIdx: 0 });
+          return;
+        }
+        this.setState({ animationIdx: i });
+      }, 5),
+    });
   }
 
-  mergeSort() {
+  mergeSort = () => {
+    this.setState({ lastSortAlgo: MERGE_SORT });
     const animations = getMergeSortAnimations(this.state.array);
     this.performAnimations(animations);
-  }
+  };
 
-  bubbleSort() {
+  bubbleSort = () => {
+    this.setState({ lastSortAlgo: BUBBLE_SORT });
     const animations = getBubbleSortAnimations(this.state.array);
     this.performAnimations(animations);
-  }
+  };
 
-  quickSort() {
+  quickSort = () => {
+    this.setState({ lastSortAlgo: QUICK_SORT });
     const animations = getQuickSortAnimations(this.state.array);
     this.performAnimations(animations);
-  }
+  };
 
-  heapSort() {
+  heapSort = () => {
+    this.setState({ lastSortAlgo: HEAP_SORT });
     const animations = getHeapSortAnimations(this.state.array);
     this.performAnimations(animations);
+  };
+
+  generateRandomArray() {
+    const array = [];
+    for (let i = 0; i < this.state.arraySize; i++) {
+      array.push(randomIntFromInterval(5, MAX_VALUE_ARRAY));
+    }
+    array[randomIntFromInterval(0, this.state.arraySize)] = MAX_VALUE_ARRAY;
+    return array;
   }
+
+  handleCreate = () => {
+    this.setState({ isArraySorted: false });
+    this.setState({ array: this.generateRandomArray() });
+  };
+
+  handleCreateAndSort = () => {
+    this.setState({ isArraySorted: false });
+    const newArray = this.generateRandomArray();
+    var callback;
+    switch (this.state.lastSortAlgo) {
+      case MERGE_SORT:
+        callback = this.mergeSort;
+        break;
+      case BUBBLE_SORT:
+        callback = this.bubbleSort;
+        break;
+      case QUICK_SORT:
+        callback = this.quickSort;
+        break;
+      case HEAP_SORT:
+        callback = this.heapSort;
+        break;
+      default:
+        console.error(this.state.lastSortAlgo);
+    }
+    this.setState({ array: newArray }, callback);
+  };
+
+  handleStopAnimation = () => {
+    clearInterval(this.state.intervalId);
+    this.setState({ isDisabled: false });
+    this.setState({ animationIdx: 0 });
+    this.setState({ isPaused: false });
+  };
+
+  handlePauseAnimation = () => {
+    if (this.state.isPaused) {
+      this.resumeAnimation();
+    } else {
+      this.pauseAnimation();
+    }
+  };
+
+  pauseAnimation = () => {
+    clearInterval(this.state.intervalId);
+    this.setState({ isPaused: true });
+  };
+
+  resumeAnimation = () => {
+    switch (this.state.lastSortAlgo) {
+      case MERGE_SORT:
+        this.mergeSort();
+        break;
+      case BUBBLE_SORT:
+        this.bubbleSort();
+        break;
+      case QUICK_SORT:
+        this.quickSort();
+        break;
+      case HEAP_SORT:
+        this.heapSort();
+        break;
+      default:
+        console.error(this.state.lastSortAlgo);
+    }
+    this.setState({ isPaused: false });
+  };
 
   render() {
     const { array } = this.state;
@@ -132,15 +225,24 @@ export default class SortingVisualizer extends React.Component {
             value={this.state.arraySize}
             id='adjustArraySize'
             disabled={this.state.isDisabled ? 'disabled' : ''}
-            onChange={e => this.setState({ arraySize: e.target.value })}
+            onChange={(e) => this.setState({ arraySize: e.target.value })}
           />
         </div>
         <ArrayBar array={array}></ArrayBar>
+        <Confirm
+          open={this.state.isArraySorted}
+          header='The array is already sorted!'
+          content='You are trying to sort an already sorted array!'
+          cancelButton='Create a new array'
+          confirmButton={`Create a new array and sort with ${this.state.lastSortAlgo}!`}
+          onCancel={this.handleCreate}
+          onConfirm={this.handleCreateAndSort}
+        />
         <div className='button-container'>
           <Button
             primary
             disabled={this.state.isDisabled}
-            onClick={() => this.resetArray()}
+            onClick={() => this.setState({ array: this.generateRandomArray() })}
           >
             <i className='fa fa-bolt left' /> Generate new array
           </Button>
@@ -171,6 +273,21 @@ export default class SortingVisualizer extends React.Component {
             onClick={() => this.heapSort()}
           >
             Heap Sort!
+          </Button>
+          <Button
+            color='red'
+            disabled={!this.state.isDisabled}
+            onClick={() => this.handleStopAnimation()}
+          >
+            <i class='fas fa-stop'></i> Stop
+          </Button>
+          <Button
+            disabled={this.state.animationIdx === 0}
+            color='orange'
+            onClick={() => this.handlePauseAnimation()}
+          >
+            <i class='fas fa-pause'></i>{' '}
+            {this.state.isPaused ? 'Resume' : 'Pause'}
           </Button>
         </div>
         <Footer />
