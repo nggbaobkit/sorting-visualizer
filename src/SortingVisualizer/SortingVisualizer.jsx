@@ -157,7 +157,6 @@ export default class SortingVisualizer extends React.Component {
   resumeAnimation = () => {
     this.state.animationTimer.resume();
     this.setState({ isSortingProcessPaused: false });
-    console.log(this.state.isSortingProcessPaused);
   };
 
   render() {

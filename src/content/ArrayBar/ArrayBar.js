@@ -50,7 +50,7 @@ export const ArrayBar = (props) => {
             height: `${value}px`,
             width: width,
             marginLeft: margin,
-            marginRigh: margin,
+            marginRight: margin,
             color: color,
             fontSize: fontSize,
           }}

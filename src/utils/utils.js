@@ -5,10 +5,12 @@ export function setArrayBarsToColor(color) {
   }
 }
 
-export function generateRandomArray(maxValue, arrSize) {
+export function generateRandomArray(maxValue_1, arrSize) {
+  let barContainers = document.getElementsByClassName("bar-container");
+  let maxVal = barContainers[0].clientHeight;
   const array = [];
   for (let i = 0; i < arrSize; i++) {
-    array.push(randomIntFromInterval(5, maxValue));
+    array.push(randomIntFromInterval(5, maxVal * 0.85));
   }
   return array;
 }
