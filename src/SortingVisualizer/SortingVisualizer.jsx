@@ -1,26 +1,26 @@
-import React from 'react';
-import Fade from 'react-reveal/Fade';
-import { Button, Confirm } from 'semantic-ui-react';
+import React from "react";
+import Fade from "react-reveal/Fade";
+import { Button, Confirm } from "semantic-ui-react";
 
-import './SortingVisualizer.scss';
-import { getMergeSortAnimations } from '../SortingAlgorithms/MergeSort.js';
-import { getBubbleSortAnimations } from '../SortingAlgorithms/BubbleSort.js';
-import { getQuickSortAnimations } from '../SortingAlgorithms/QuickSort.js';
-import { getHeapSortAnimations } from '../SortingAlgorithms/HeapSort.js';
-import ArrayBar from '../ArrayBar/ArrayBar';
-import Footer from '../Footer/Footer';
-import LogoPic from '../img/columns.png';
+import "./SortingVisualizer.scss";
+import { getMergeSortAnimations } from "../SortingAlgorithms/MergeSort.js";
+import { getBubbleSortAnimations } from "../SortingAlgorithms/BubbleSort.js";
+import { getQuickSortAnimations } from "../SortingAlgorithms/QuickSort.js";
+import { getHeapSortAnimations } from "../SortingAlgorithms/HeapSort.js";
+import ArrayBar from "../ArrayBar/ArrayBar";
+import Footer from "../Footer/Footer";
+import LogoPic from "../img/columns.png";
 
-import variables from '../styles/core.scss';
+import variables from "../styles/core.scss";
 
 const PRIMARY_COLOR = variables.primaryColor;
 const SORTING_COLOR = variables.sortingColor;
 const MAX_VALUE_ARRAY = 400;
 const INITIAL_ARRAY_SIZE = 75;
-const MERGE_SORT = 'Merge Sort';
-const BUBBLE_SORT = 'Bubble Sort';
-const QUICK_SORT = 'Quick Sort';
-const HEAP_SORT = 'Heap Sort';
+const MERGE_SORT = "Merge Sort";
+const BUBBLE_SORT = "Bubble Sort";
+const QUICK_SORT = "Quick Sort";
+const HEAP_SORT = "Heap Sort";
 
 export default class SortingVisualizer extends React.Component {
   constructor(props) {
@@ -32,7 +32,7 @@ export default class SortingVisualizer extends React.Component {
       isDisabled: false,
       intervalId: null,
       isArraySorted: false,
-      lastSortAlgo: '',
+      lastSortAlgo: "",
       animationIdx: 0,
       isPaused: false,
     };
@@ -66,7 +66,7 @@ export default class SortingVisualizer extends React.Component {
     }
     this.setState({ isDisabled: true });
     let swappedArray = this.state.array.slice();
-    let arrayBars = document.getElementsByClassName('array-bar');
+    let arrayBars = document.getElementsByClassName("array-bar");
     let i = this.state.animationIdx;
 
     this.setState({
@@ -208,43 +208,43 @@ export default class SortingVisualizer extends React.Component {
 
     return (
       <div>
-        <div className='header-container'>
+        <div className="header-container">
           <Fade top>
-            <h1 className='header-content'>
-              <img className='app-logo' src={LogoPic} alt='logo' />
+            <h1 className="header-content">
+              <img className="app-logo" src={LogoPic} alt="logo" />
               Sorting Visualizer
             </h1>
           </Fade>
-          <h3 className='header-content' style={{ paddingLeft: '64px' }}>
-            <i class='fas fa-sliders-h'></i> Adjusting array size
+          <h3 className="header-content" style={{ paddingLeft: "64px" }}>
+            <i class="fas fa-sliders-h"></i> Adjusting array size
           </h3>
           <input
-            type='range'
-            min='5'
-            max='150'
+            type="range"
+            min="5"
+            max="150"
             value={this.state.arraySize}
-            id='adjustArraySize'
-            disabled={this.state.isDisabled ? 'disabled' : ''}
+            id="adjustArraySize"
+            disabled={this.state.isDisabled ? "disabled" : ""}
             onChange={(e) => this.setState({ arraySize: e.target.value })}
           />
         </div>
         <ArrayBar array={array}></ArrayBar>
         <Confirm
           open={this.state.isArraySorted}
-          header='The array is already sorted!'
-          content='You are trying to sort an already sorted array!'
-          cancelButton='Create a new array'
+          header="The array is already sorted!"
+          content="You are trying to sort an already sorted array!"
+          cancelButton="Create a new array"
           confirmButton={`Create a new array and sort with ${this.state.lastSortAlgo}!`}
           onCancel={this.handleCreate}
           onConfirm={this.handleCreateAndSort}
         />
-        <div className='button-container'>
+        <div className="button-container">
           <Button
             primary
             disabled={this.state.isDisabled}
             onClick={() => this.setState({ array: this.generateRandomArray() })}
           >
-            <i className='fa fa-bolt left' /> Generate new array
+            <i className="fa fa-bolt left" /> Generate new array
           </Button>
           <Button
             secondary
@@ -275,19 +275,19 @@ export default class SortingVisualizer extends React.Component {
             Heap Sort!
           </Button>
           <Button
-            color='red'
+            color="red"
             disabled={!this.state.isDisabled}
             onClick={() => this.handleStopAnimation()}
           >
-            <i class='fas fa-stop'></i> Stop
+            <i class="fas fa-stop"></i> Stop
           </Button>
           <Button
             disabled={this.state.animationIdx === 0}
-            color='orange'
+            color="orange"
             onClick={() => this.handlePauseAnimation()}
           >
-            <i class='fas fa-pause'></i>{' '}
-            {this.state.isPaused ? 'Resume' : 'Pause'}
+            <i class="fas fa-pause"></i>{" "}
+            {this.state.isPaused ? "Resume" : "Pause"}
           </Button>
         </div>
         <Footer />

@@ -1,4 +1,4 @@
-import { swap, pushAnimations, isSorted } from './Utilities';
+import { swap, pushAnimations, isSorted } from "./Utilities";
 
 export function getQuickSortAnimations(array) {
   if (isSorted(array)) {
