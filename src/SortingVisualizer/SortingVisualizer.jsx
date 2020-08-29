@@ -11,7 +11,7 @@ import {
   getMergeSortAnimations,
   getQuickSortAnimations,
 } from "../SortingAlgorithms";
-import {ArrayBar, Footer} from "../content";
+import { ArrayBar, Footer } from "../content";
 import {
   setArrayBarsToColor,
   generateRandomArray,
