@@ -61,7 +61,6 @@ export default class SortingVisualizer extends React.Component {
   }
 
   performAnimations(animations) {
-    console.log(animations.length);
     if (animations.length === 0) {
       this.setState({ isArraySorted: true });
       return;
