@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Fade from "react-reveal/Fade";
 import "./Footer.scss";
 
-export default class Footer extends Component {
+export class Footer extends Component {
   render() {
     return (
       <div>

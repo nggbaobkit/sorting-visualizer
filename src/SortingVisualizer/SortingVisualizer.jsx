@@ -3,18 +3,27 @@ import Fade from "react-reveal/Fade";
 import { Button, Confirm } from "semantic-ui-react";
 
 import "./SortingVisualizer.scss";
+import LogoPic from "../img/columns.png";
+
 import {
   getBubbleSortAnimations,
   getHeapSortAnimations,
   getMergeSortAnimations,
   getQuickSortAnimations,
 } from "../SortingAlgorithms";
-import ArrayBar from "../ArrayBar/ArrayBar";
-import Footer from "../Footer/Footer";
-import LogoPic from "../img/columns.png";
-
-import { setArrayBarsToColor } from "../utils/utils";
-import * as Constants from "../utils/constants";
+import {ArrayBar, Footer} from "../content";
+import {
+  setArrayBarsToColor,
+  generateRandomArray,
+  PRIMARY_COLOR,
+  SORTING_COLOR,
+  MAX_VALUE_ARRAY,
+  INITIAL_ARRAY_SIZE,
+  MERGE_SORT,
+  BUBBLE_SORT,
+  QUICK_SORT,
+  HEAP_SORT,
+} from "../utils";
 
 export default class SortingVisualizer extends React.Component {
   constructor(props) {
@@ -22,7 +31,7 @@ export default class SortingVisualizer extends React.Component {
 
     this.state = {
       array: [],
-      arraySize: Constants.INITIAL_ARRAY_SIZE,
+      arraySize: INITIAL_ARRAY_SIZE,
       isAdjustOptionsDisabled: false,
       intervalId: null,
       isArraySorted: false,
@@ -33,13 +42,17 @@ export default class SortingVisualizer extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ arraySize: Constants.INITIAL_ARRAY_SIZE });
-    this.setState({ array: this.generateRandomArray() });
+    this.setState({ arraySize: INITIAL_ARRAY_SIZE });
+    this.setState({
+      array: generateRandomArray(MAX_VALUE_ARRAY, this.state.arraySize),
+    });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevState.arraySize !== this.state.arraySize) {
-      this.setState({ array: this.generateRandomArray() });
+      this.setState({
+        array: generateRandomArray(MAX_VALUE_ARRAY, this.state.arraySize),
+      });
     }
   }
 
@@ -70,8 +83,7 @@ export default class SortingVisualizer extends React.Component {
           let [barOneIdx, barTwoIdx] = animations[i];
           let barOneStyle = arrayBars[barOneIdx].style;
           let barTwoStyle = arrayBars[barTwoIdx].style;
-          const color =
-            i % 3 === 0 ? Constants.SORTING_COLOR : Constants.PRIMARY_COLOR;
+          const color = i % 3 === 0 ? SORTING_COLOR : PRIMARY_COLOR;
           barOneStyle.backgroundColor = color;
           barTwoStyle.backgroundColor = color;
         } else {
@@ -97,59 +109,51 @@ export default class SortingVisualizer extends React.Component {
   }
 
   mergeSort = () => {
-    this.setState({ lastSortAlgo: Constants.MERGE_SORT });
+    this.setState({ lastSortAlgo: MERGE_SORT });
     const animations = getMergeSortAnimations(this.state.array);
     this.performAnimations(animations);
   };
 
   bubbleSort = () => {
-    this.setState({ lastSortAlgo: Constants.BUBBLE_SORT });
+    this.setState({ lastSortAlgo: BUBBLE_SORT });
     const animations = getBubbleSortAnimations(this.state.array);
     this.performAnimations(animations);
   };
 
   quickSort = () => {
-    this.setState({ lastSortAlgo: Constants.QUICK_SORT });
+    this.setState({ lastSortAlgo: QUICK_SORT });
     const animations = getQuickSortAnimations(this.state.array);
     this.performAnimations(animations);
   };
 
   heapSort = () => {
-    this.setState({ lastSortAlgo: Constants.HEAP_SORT });
+    this.setState({ lastSortAlgo: HEAP_SORT });
     const animations = getHeapSortAnimations(this.state.array);
     this.performAnimations(animations);
   };
 
-  generateRandomArray() {
-    const array = [];
-    for (let i = 0; i < this.state.arraySize; i++) {
-      array.push(randomIntFromInterval(5, Constants.MAX_VALUE_ARRAY));
-    }
-    array[randomIntFromInterval(0, this.state.arraySize)] =
-      Constants.MAX_VALUE_ARRAY;
-    return array;
-  }
-
   handleCreate = () => {
     this.setState({ isArraySorted: false });
-    this.setState({ array: this.generateRandomArray() });
+    this.setState({
+      array: generateRandomArray(MAX_VALUE_ARRAY, this.state.arraySize),
+    });
   };
 
   handleCreateAndSort = () => {
     this.setState({ isArraySorted: false });
-    const newArray = this.generateRandomArray();
+    const newArray = generateRandomArray(MAX_VALUE_ARRAY, this.state.arraySize);
     var callback;
     switch (this.state.lastSortAlgo) {
-      case Constants.MERGE_SORT:
+      case MERGE_SORT:
         callback = this.mergeSort;
         break;
-      case Constants.BUBBLE_SORT:
+      case BUBBLE_SORT:
         callback = this.bubbleSort;
         break;
-      case Constants.QUICK_SORT:
+      case QUICK_SORT:
         callback = this.quickSort;
         break;
-      case Constants.HEAP_SORT:
+      case HEAP_SORT:
         callback = this.heapSort;
         break;
       default:
@@ -163,7 +167,7 @@ export default class SortingVisualizer extends React.Component {
     this.setState({ isAdjustOptionsDisabled: false });
     this.setState({ animationIdx: 0 });
     this.setState({ isPaused: false });
-    setArrayBarsToColor(Constants.PRIMARY_COLOR);
+    setArrayBarsToColor(PRIMARY_COLOR);
   };
 
   handlePauseAnimation = () => {
@@ -181,16 +185,16 @@ export default class SortingVisualizer extends React.Component {
 
   resumeAnimation = () => {
     switch (this.state.lastSortAlgo) {
-      case Constants.MERGE_SORT:
+      case MERGE_SORT:
         this.mergeSort();
         break;
-      case Constants.BUBBLE_SORT:
+      case BUBBLE_SORT:
         this.bubbleSort();
         break;
-      case Constants.QUICK_SORT:
+      case QUICK_SORT:
         this.quickSort();
         break;
-      case Constants.HEAP_SORT:
+      case HEAP_SORT:
         this.heapSort();
         break;
       default:
@@ -238,7 +242,14 @@ export default class SortingVisualizer extends React.Component {
           <Button
             primary
             disabled={this.state.isAdjustOptionsDisabled}
-            onClick={() => this.setState({ array: this.generateRandomArray() })}
+            onClick={() =>
+              this.setState({
+                array: generateRandomArray(
+                  MAX_VALUE_ARRAY,
+                  this.state.arraySize
+                ),
+              })
+            }
           >
             <i className="fa fa-bolt left" /> Generate new array
           </Button>
@@ -290,9 +301,4 @@ export default class SortingVisualizer extends React.Component {
       </div>
     );
   }
-}
-
-function randomIntFromInterval(min, max) {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
 }
