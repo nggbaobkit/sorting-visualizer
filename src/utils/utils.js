@@ -5,7 +5,7 @@ export function setArrayBarsToColor(color) {
   }
 }
 
-export function generateRandomArray(maxValue_1, arrSize) {
+export function generateRandomArray(arrSize) {
   let barContainers = document.getElementsByClassName("bar-container");
   let maxVal = barContainers[0].clientHeight;
   const array = [];
@@ -63,4 +63,24 @@ export function IntervalTimer(callback, interval) {
   startTime = new Date();
   timerId = setInterval(callback, interval);
   timerState = TIMER_STATE.running;
+}
+
+export const debounce = (fn, delay) => {
+  let timeoutId;
+  return function (...args) {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
+      fn(...args);
+    }, delay);
+  };
+};
+
+export function getInitialArraySize() {
+  return window.innerWidth / 40;
+}
+
+export function getMaxArraySize() {
+  return window.innerWidth / 20;
 }

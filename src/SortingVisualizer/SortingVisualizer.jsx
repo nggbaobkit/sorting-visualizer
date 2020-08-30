@@ -17,9 +17,10 @@ import {
   generateRandomArray,
   PRIMARY_COLOR,
   SORTING_COLOR,
-  MAX_VALUE_ARRAY,
-  INITIAL_ARRAY_SIZE,
   IntervalTimer,
+  debounce,
+  getInitialArraySize,
+  getMaxArraySize,
 } from "../utils";
 
 export default class SortingVisualizer extends React.Component {
@@ -28,7 +29,8 @@ export default class SortingVisualizer extends React.Component {
 
     this.state = {
       array: [],
-      arraySize: INITIAL_ARRAY_SIZE,
+      arraySize: 0,
+      maxArraySize: 0,
       isAdjustOptionsDisabled: false,
       animationTimer: null,
       isArraySorted: false,
@@ -37,16 +39,23 @@ export default class SortingVisualizer extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ arraySize: INITIAL_ARRAY_SIZE });
-    this.setState({
-      array: generateRandomArray(MAX_VALUE_ARRAY, this.state.arraySize),
-    });
+    this.setState({ arraySize: getInitialArraySize() });
+    this.setState({ maxArraySize: getMaxArraySize() });
+    this.setState({ array: generateRandomArray(this.state.arraySize) });
+    window.addEventListener(
+      "resize",
+      debounce(() => {
+        this.setState({ arraySize: getInitialArraySize() });
+        this.setState({ maxArraySize: getMaxArraySize() });
+        this.setState({ array: generateRandomArray(this.state.arraySize) });
+      }, 500)
+    );
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevState.arraySize !== this.state.arraySize) {
       this.setState({
-        array: generateRandomArray(MAX_VALUE_ARRAY, this.state.arraySize),
+        array: generateRandomArray(this.state.arraySize),
       });
     }
   }
@@ -122,14 +131,14 @@ export default class SortingVisualizer extends React.Component {
   handleCreate = () => {
     this.setState({ isArraySorted: false });
     this.setState({
-      array: generateRandomArray(MAX_VALUE_ARRAY, this.state.arraySize),
+      array: generateRandomArray(this.state.arraySize),
     });
   };
 
   handleCreateAndSort = () => {
     this.setState({ isArraySorted: false });
     this.setState({
-      array: generateRandomArray(MAX_VALUE_ARRAY, this.state.arraySize),
+      array: generateRandomArray(this.state.arraySize),
     });
   };
 
@@ -177,7 +186,7 @@ export default class SortingVisualizer extends React.Component {
           <input
             type="range"
             min="5"
-            max="150"
+            max={this.state.maxArraySize}
             value={this.state.arraySize}
             id="adjustArraySize"
             disabled={this.state.isAdjustOptionsDisabled ? "disabled" : ""}
@@ -202,10 +211,7 @@ export default class SortingVisualizer extends React.Component {
             disabled={this.state.isAdjustOptionsDisabled}
             onClick={() =>
               this.setState({
-                array: generateRandomArray(
-                  MAX_VALUE_ARRAY,
-                  this.state.arraySize
-                ),
+                array: generateRandomArray(this.state.arraySize),
               })
             }
           >
