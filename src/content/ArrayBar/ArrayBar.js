@@ -1,8 +1,8 @@
-import React from 'react';
-import $ from 'jquery';
-import './ArrayBar.scss';
+import React from "react";
+import $ from "jquery";
+import "./ArrayBar.scss";
 
-const ArrayBar = props => {
+export const ArrayBar = (props) => {
   const array = props.array;
   const numWidth = Math.floor($(document).width() / (array.length * 3));
   const width = `${numWidth}px`;
@@ -23,7 +23,7 @@ const ArrayBar = props => {
       ? 2.5
       : 2;
   const margin = `${numMargin}px`;
-  const color = numWidth > 20 ? 'white' : 'transparent';
+  const color = numWidth > 20 ? "white" : "transparent";
   const numFont =
     numWidth > 70
       ? 23
@@ -41,18 +41,18 @@ const ArrayBar = props => {
   const fontSize = `${numFont}px`;
 
   return (
-    <div className='bar-container'>
+    <div className="bar-container">
       {array.map((value, idx) => (
         <div
-          className='array-bar'
+          className="array-bar"
           key={idx}
           style={{
             height: `${value}px`,
             width: width,
             marginLeft: margin,
-            marginRigh: margin,
+            marginRight: margin,
             color: color,
-            fontSize: fontSize
+            fontSize: fontSize,
           }}
         >
           {value}
@@ -61,5 +61,3 @@ const ArrayBar = props => {
     </div>
   );
 };
-
-export default ArrayBar;

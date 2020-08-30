@@ -1,4 +1,4 @@
-import { isSorted } from './Utilities';
+import { isSorted } from "./Utilities";
 
 export function getMergeSortAnimations(arr) {
   if (isSorted(arr)) {

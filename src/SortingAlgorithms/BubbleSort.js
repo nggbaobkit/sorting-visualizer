@@ -1,4 +1,4 @@
-import { swap, pushAnimations, isSorted } from './Utilities';
+import { swap, pushAnimations, isSorted } from "./Utilities";
 
 export function getBubbleSortAnimations(arr) {
   if (isSorted(arr)) {
