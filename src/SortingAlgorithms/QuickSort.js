@@ -5,7 +5,8 @@ export function getQuickSortAnimations(array) {
     return [];
   }
   let quickSortAnimations = [];
-  doQuickSort(array, 0, array.length - 1, quickSortAnimations);
+  let arr = array.slice();
+  doQuickSort(arr, 0, array.length - 1, quickSortAnimations);
   return quickSortAnimations;
 }
 

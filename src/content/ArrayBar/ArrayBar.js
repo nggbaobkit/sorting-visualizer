@@ -2,7 +2,7 @@ import React from "react";
 import $ from "jquery";
 import "./ArrayBar.scss";
 
-const ArrayBar = (props) => {
+export const ArrayBar = (props) => {
   const array = props.array;
   const numWidth = Math.floor($(document).width() / (array.length * 3));
   const width = `${numWidth}px`;
@@ -50,7 +50,7 @@ const ArrayBar = (props) => {
             height: `${value}px`,
             width: width,
             marginLeft: margin,
-            marginRigh: margin,
+            marginRight: margin,
             color: color,
             fontSize: fontSize,
           }}
@@ -61,5 +61,3 @@ const ArrayBar = (props) => {
     </div>
   );
 };
-
-export default ArrayBar;

@@ -5,7 +5,8 @@ export function getHeapSortAnimations(array) {
     return [];
   }
   let animations = [];
-  doHeapSort(array, animations);
+  let arr = array.slice();
+  doHeapSort(arr, animations);
   return animations;
 }
 

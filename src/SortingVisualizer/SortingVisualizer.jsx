@@ -3,24 +3,25 @@ import Fade from "react-reveal/Fade";
 import { Button, Confirm } from "semantic-ui-react";
 
 import "./SortingVisualizer.scss";
-import { getMergeSortAnimations } from "../SortingAlgorithms/MergeSort.js";
-import { getBubbleSortAnimations } from "../SortingAlgorithms/BubbleSort.js";
-import { getQuickSortAnimations } from "../SortingAlgorithms/QuickSort.js";
-import { getHeapSortAnimations } from "../SortingAlgorithms/HeapSort.js";
-import ArrayBar from "../ArrayBar/ArrayBar";
-import Footer from "../Footer/Footer";
 import LogoPic from "../img/columns.png";
 
-import variables from "../styles/core.scss";
-
-const PRIMARY_COLOR = variables.primaryColor;
-const SORTING_COLOR = variables.sortingColor;
-const MAX_VALUE_ARRAY = 400;
-const INITIAL_ARRAY_SIZE = 75;
-const MERGE_SORT = "Merge Sort";
-const BUBBLE_SORT = "Bubble Sort";
-const QUICK_SORT = "Quick Sort";
-const HEAP_SORT = "Heap Sort";
+import {
+  getBubbleSortAnimations,
+  getHeapSortAnimations,
+  getMergeSortAnimations,
+  getQuickSortAnimations,
+} from "../SortingAlgorithms";
+import { ArrayBar, Footer } from "../content";
+import {
+  setArrayBarsToColor,
+  generateRandomArray,
+  PRIMARY_COLOR,
+  SORTING_COLOR,
+  IntervalTimer,
+  debounce,
+  getInitialArraySize,
+  getMaxArraySize,
+} from "../utils";
 
 export default class SortingVisualizer extends React.Component {
   constructor(props) {
@@ -28,24 +29,34 @@ export default class SortingVisualizer extends React.Component {
 
     this.state = {
       array: [],
-      arraySize: INITIAL_ARRAY_SIZE,
-      isDisabled: false,
-      intervalId: null,
+      arraySize: 0,
+      maxArraySize: 0,
+      isAdjustOptionsDisabled: false,
+      animationTimer: null,
       isArraySorted: false,
-      lastSortAlgo: "",
-      animationIdx: 0,
-      isPaused: false,
+      isSortingProcessPaused: false,
     };
   }
 
   componentDidMount() {
-    this.setState({ arraySize: INITIAL_ARRAY_SIZE });
-    this.setState({ array: this.generateRandomArray() });
+    this.setState({ arraySize: getInitialArraySize() });
+    this.setState({ maxArraySize: getMaxArraySize() });
+    this.setState({ array: generateRandomArray(this.state.arraySize) });
+    window.addEventListener(
+      "resize",
+      debounce(() => {
+        this.setState({ arraySize: getInitialArraySize() });
+        this.setState({ maxArraySize: getMaxArraySize() });
+        this.setState({ array: generateRandomArray(this.state.arraySize) });
+      }, 500)
+    );
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevState.arraySize !== this.state.arraySize) {
-      this.setState({ array: this.generateRandomArray() });
+      this.setState({
+        array: generateRandomArray(this.state.arraySize),
+      });
     }
   }
 
@@ -59,18 +70,17 @@ export default class SortingVisualizer extends React.Component {
   }
 
   performAnimations(animations) {
-    console.log(animations);
     if (animations.length === 0) {
       this.setState({ isArraySorted: true });
       return;
     }
-    this.setState({ isDisabled: true });
+    this.setState({ isAdjustOptionsDisabled: true });
     let swappedArray = this.state.array.slice();
     let arrayBars = document.getElementsByClassName("array-bar");
-    let i = this.state.animationIdx;
+    let i = 0;
 
     this.setState({
-      intervalId: setInterval(() => {
+      animationTimer: new IntervalTimer(() => {
         const isColorChange = i % 3 !== 2;
 
         if (isColorChange) {
@@ -88,90 +98,60 @@ export default class SortingVisualizer extends React.Component {
           swappedArray[barTwoIdx] = newTwoHeight;
           this.setState({ array: swappedArray });
         }
-
         i += 1;
         if (i >= animations.length) {
-          clearInterval(this.state.intervalId);
-          i = 0;
-          this.setState({ isDisabled: false });
-          this.setState({ animationIdx: 0 });
-          return;
+          this.state.animationTimer.stop();
+          this.setState({ isAdjustOptionsDisabled: false });
+          this.setState({ animationTimer: null });
         }
-        this.setState({ animationIdx: i });
       }, 5),
     });
   }
 
   mergeSort = () => {
-    this.setState({ lastSortAlgo: MERGE_SORT });
     const animations = getMergeSortAnimations(this.state.array);
     this.performAnimations(animations);
   };
 
   bubbleSort = () => {
-    this.setState({ lastSortAlgo: BUBBLE_SORT });
     const animations = getBubbleSortAnimations(this.state.array);
     this.performAnimations(animations);
   };
 
   quickSort = () => {
-    this.setState({ lastSortAlgo: QUICK_SORT });
     const animations = getQuickSortAnimations(this.state.array);
     this.performAnimations(animations);
   };
 
   heapSort = () => {
-    this.setState({ lastSortAlgo: HEAP_SORT });
     const animations = getHeapSortAnimations(this.state.array);
     this.performAnimations(animations);
   };
 
-  generateRandomArray() {
-    const array = [];
-    for (let i = 0; i < this.state.arraySize; i++) {
-      array.push(randomIntFromInterval(5, MAX_VALUE_ARRAY));
-    }
-    array[randomIntFromInterval(0, this.state.arraySize)] = MAX_VALUE_ARRAY;
-    return array;
-  }
-
   handleCreate = () => {
     this.setState({ isArraySorted: false });
-    this.setState({ array: this.generateRandomArray() });
+    this.setState({
+      array: generateRandomArray(this.state.arraySize),
+    });
   };
 
   handleCreateAndSort = () => {
     this.setState({ isArraySorted: false });
-    const newArray = this.generateRandomArray();
-    var callback;
-    switch (this.state.lastSortAlgo) {
-      case MERGE_SORT:
-        callback = this.mergeSort;
-        break;
-      case BUBBLE_SORT:
-        callback = this.bubbleSort;
-        break;
-      case QUICK_SORT:
-        callback = this.quickSort;
-        break;
-      case HEAP_SORT:
-        callback = this.heapSort;
-        break;
-      default:
-        console.error(this.state.lastSortAlgo);
-    }
-    this.setState({ array: newArray }, callback);
+    this.setState({
+      array: generateRandomArray(this.state.arraySize),
+    });
   };
 
   handleStopAnimation = () => {
-    clearInterval(this.state.intervalId);
-    this.setState({ isDisabled: false });
-    this.setState({ animationIdx: 0 });
-    this.setState({ isPaused: false });
+    this.state.animationTimer.stop();
+    this.setState({ isAdjustOptionsDisabled: false });
+    this.setState({ animationTimer: null });
+    this.setState({ isSortingProcessPaused: false });
+    setArrayBarsToColor(PRIMARY_COLOR);
   };
 
   handlePauseAnimation = () => {
-    if (this.state.isPaused) {
+    if (this.state.isSortingProcessPaused) {
       this.resumeAnimation();
     } else {
       this.pauseAnimation();
@@ -179,28 +159,13 @@ export default class SortingVisualizer extends React.Component {
   };
 
   pauseAnimation = () => {
-    clearInterval(this.state.intervalId);
-    this.setState({ isPaused: true });
+    this.state.animationTimer.pause();
+    this.setState({ isSortingProcessPaused: true });
   };
 
   resumeAnimation = () => {
-    switch (this.state.lastSortAlgo) {
-      case MERGE_SORT:
-        this.mergeSort();
-        break;
-      case BUBBLE_SORT:
-        this.bubbleSort();
-        break;
-      case QUICK_SORT:
-        this.quickSort();
-        break;
-      case HEAP_SORT:
-        this.heapSort();
-        break;
-      default:
-        console.error(this.state.lastSortAlgo);
-    }
-    this.setState({ isPaused: false });
+    this.state.animationTimer.resume();
+    this.setState({ isSortingProcessPaused: false });
   };
 
   render() {
@@ -216,87 +181,88 @@ export default class SortingVisualizer extends React.Component {
             </h1>
           </Fade>
           <h3 className="header-content" style={{ paddingLeft: "64px" }}>
-            <i class="fas fa-sliders-h"></i> Adjusting array size
+            <i class="fas fa-sliders-h" /> Adjusting array size
           </h3>
           <input
             type="range"
             min="5"
-            max="150"
+            max={this.state.maxArraySize}
             value={this.state.arraySize}
             id="adjustArraySize"
-            disabled={this.state.isDisabled ? "disabled" : ""}
+            disabled={this.state.isAdjustOptionsDisabled ? "disabled" : ""}
             onChange={(e) => this.setState({ arraySize: e.target.value })}
           />
         </div>
-        <ArrayBar array={array}></ArrayBar>
+        <ArrayBar array={array} />
         <Confirm
           open={this.state.isArraySorted}
           header="The array is already sorted!"
           content="You are trying to sort an already sorted array!"
-          cancelButton="Create a new array"
-          confirmButton={`Create a new array and sort with ${this.state.lastSortAlgo}!`}
-          onCancel={this.handleCreate}
+          cancelButton="Cancel"
+          confirmButton={`Generate a new array!`}
+          onCancel={() => {
+            this.setState({ isArraySorted: false });
+          }}
           onConfirm={this.handleCreateAndSort}
         />
         <div className="button-container">
           <Button
             primary
-            disabled={this.state.isDisabled}
-            onClick={() => this.setState({ array: this.generateRandomArray() })}
+            disabled={this.state.isAdjustOptionsDisabled}
+            onClick={() =>
+              this.setState({
+                array: generateRandomArray(this.state.arraySize),
+              })
+            }
           >
             <i className="fa fa-bolt left" /> Generate new array
           </Button>
           <Button
             secondary
-            disabled={this.state.isDisabled}
+            disabled={this.state.isAdjustOptionsDisabled}
             onClick={() => this.mergeSort()}
           >
             Merge Sort!
           </Button>
           <Button
             secondary
-            disabled={this.state.isDisabled}
+            disabled={this.state.isAdjustOptionsDisabled}
             onClick={() => this.bubbleSort()}
           >
             Bubble Sort!
           </Button>
           <Button
             secondary
-            disabled={this.state.isDisabled}
+            disabled={this.state.isAdjustOptionsDisabled}
             onClick={() => this.quickSort()}
           >
             Quick Sort!
           </Button>
           <Button
             secondary
-            disabled={this.state.isDisabled}
+            disabled={this.state.isAdjustOptionsDisabled}
             onClick={() => this.heapSort()}
           >
             Heap Sort!
           </Button>
           <Button
             color="red"
-            disabled={!this.state.isDisabled}
+            disabled={!this.state.isAdjustOptionsDisabled}
             onClick={() => this.handleStopAnimation()}
           >
-            <i class="fas fa-stop"></i> Stop
+            <i class="fas fa-stop" /> Stop
           </Button>
           <Button
-            disabled={this.state.animationIdx === 0}
+            disabled={this.state.animationTimer === null}
             color="orange"
             onClick={() => this.handlePauseAnimation()}
           >
-            <i class="fas fa-pause"></i>{" "}
-            {this.state.isPaused ? "Resume" : "Pause"}
+            <i class="fas fa-pause" />{" "}
+            {this.state.isSortingProcessPaused ? "Resume" : "Pause"}
           </Button>
         </div>
         <Footer />
       </div>
     );
   }
-}
-
-function randomIntFromInterval(min, max) {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
 }
