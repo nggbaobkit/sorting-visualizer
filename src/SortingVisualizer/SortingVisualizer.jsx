@@ -1,5 +1,4 @@
 import React from "react";
-import Fade from "react-reveal/Fade";
 import { Button, Confirm } from "semantic-ui-react";
 
 import "./SortingVisualizer.scss";
@@ -42,6 +41,7 @@ export default class SortingVisualizer extends React.Component {
     this.setState({ arraySize: getInitialArraySize() });
     this.setState({ maxArraySize: getMaxArraySize() });
     this.setState({ array: generateRandomArray(this.state.arraySize) });
+    this.setState( { animationSpeed: 5});
     window.addEventListener(
       "resize",
       debounce(() => {
@@ -58,15 +58,6 @@ export default class SortingVisualizer extends React.Component {
         array: generateRandomArray(this.state.arraySize),
       });
     }
-  }
-
-  getAnimationSpeed() {
-    let arrayLength = this.state.array.length;
-    let speed =
-      1000 - Math.pow(arrayLength, 2) > 10
-        ? 1000 - Math.pow(arrayLength, 2)
-        : 10;
-    return speed;
   }
 
   performAnimations(animations) {
@@ -104,7 +95,7 @@ export default class SortingVisualizer extends React.Component {
           this.setState({ isAdjustOptionsDisabled: false });
           this.setState({ animationTimer: null });
         }
-      }, 5),
+      }, this.state.animationSpeed),
     });
   }
 
@@ -173,25 +164,46 @@ export default class SortingVisualizer extends React.Component {
 
     return (
       <div>
-        <div className="header-container">
-          <Fade top>
+        <div className="container-fluid d-flex header-container p-3">
+          <div className="row justify-content-center align-self-center">
+            <img className="app-logo" src={LogoPic} alt="logo" />
             <h1 className="header-content">
-              <img className="app-logo" src={LogoPic} alt="logo" />
               Sorting Visualizer
             </h1>
-          </Fade>
-          <h3 className="header-content" style={{ paddingLeft: "64px" }}>
-            <i class="fas fa-sliders-h" /> Adjusting array size
-          </h3>
-          <input
-            type="range"
-            min="5"
-            max={this.state.maxArraySize}
-            value={this.state.arraySize}
-            id="adjustArraySize"
-            disabled={this.state.isAdjustOptionsDisabled ? "disabled" : ""}
-            onChange={(e) => this.setState({ arraySize: e.target.value })}
-          />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col adjust-options-container d-flex justify-content-end p-1 pr-3">
+            <h4 className="adjust-options-content">
+              <i className="fas fa-sliders-h"/> Array size
+            </h4>
+            <input
+                type="range"
+                min="5"
+                max={this.state.maxArraySize}
+                value={this.state.arraySize}
+                id="adjustArraySize"
+                disabled={this.state.isAdjustOptionsDisabled ? "disabled" : ""}
+                onChange={(e) => this.setState({arraySize: e.target.value})}
+            />
+          </div>
+          <div className="col adjust-options-container d-flex p-1 pl-3">
+            <h4 className="adjust-options-content">
+              Slow
+            </h4>
+            <input
+                type="range"
+                min='5'
+                max='300'
+                value={this.state.animationSpeed}
+                id="animationSpeed"
+                disabled={this.state.isAdjustOptionsDisabled ? "disabled" : ""}
+                onChange={(e) => this.setState({animationSpeed: e.target.value})}
+            />
+            <h4 className="adjust-options-content">
+              Slow
+            </h4>
+          </div>
         </div>
         <ArrayBar array={array} />
         <Confirm

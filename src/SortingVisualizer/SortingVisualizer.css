@@ -1,0 +1,37 @@
+:export {
+  primaryColor: #00203fcc;
+  secondaryColor: #d7f0e599;
+  sortingColor: #f2aa4c;
+}
+
+.header-container {
+  background-color: #00203fcc;
+}
+
+.adjust-options-container {
+  background-color: #d7f0e599;
+}
+
+.adjust-options-content {
+  display: inline-block;
+}
+
+.header-content {
+  display: inline-block;
+  color: white;
+  padding: 0 16px;
+}
+
+.app-logo {
+  height: 50px;
+  width: 50px;
+}
+
+.button-container {
+  margin: auto;
+  background-color: #d7f0e599;
+  text-align: center;
+  height: 64px;
+}
+
+/*# sourceMappingURL=SortingVisualizer.css.map */
