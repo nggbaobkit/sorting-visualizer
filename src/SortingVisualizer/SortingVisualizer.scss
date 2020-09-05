@@ -2,7 +2,18 @@
 
 .header-container {
   background-color: $primary-color;
-  height: $header-height;
+  //height: $header-height;
+  //padding: 8px;
+}
+
+.adjust-options-container {
+  background-color: $secondary-color;
+}
+
+.adjust-options-content {
+  display: inline-block;
+  //color: black;
+  //padding: 0 16px;
 }
 
 .header-content {
@@ -12,9 +23,8 @@
 }
 
 .app-logo {
-  margin: 8px 8px -8px 16px;
-  height: 42px;
-  width: 42px;
+  height: 50px;
+  width: 50px;
 }
 
 .button-container {
