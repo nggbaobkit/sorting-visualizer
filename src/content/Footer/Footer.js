@@ -1,71 +1,38 @@
-import React, { Component } from "react";
-import Fade from "react-reveal/Fade";
-import "./Footer.scss";
+import React, { Component } from 'react';
+import Fade from 'react-reveal/Fade';
+import './Footer.scss';
 
 export class Footer extends Component {
   render() {
     return (
-      <div className="container.fluid h-100 footer-container p-5">
-        <div className="row d-flex justify-content-center footer-content">
+      <div class='row footer-container align-items-center'>
+        <div class='col footer-content text-center'>
           <Fade left>
-            <h4>
-              Copyright <i className="fa fa-copyright" /> 2020. All rights
+            <h5>
+              Copyright <i className='fa fa-copyright' /> 2020. All rights
               reserved.
-            </h4>
+            </h5>
           </Fade>
-        </div>
-        <div className="row d-flex justify-content-center footer-content">
           <Fade right>
             <div>
+              <span>
+                Made with{' '}
                 <span>
-                  Made with{" "}
-                  <span>
-                    <i className="fa fa-heart" style={{ color: "red" }} />
-                  </span>{" "}
-                  by{" "}
-                  <a
-                      href="//github.com/nggbaobkit/sorting-visualizer"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-weight-bold"
-                  >
-                    nggbao <i className="fa fa-external-link" />
-                  </a>
-                </span>
+                  <i className='fa fa-heart' style={{ color: 'red' }} />
+                </span>{' '}
+                by{' '}
+                <a
+                  href='//github.com/nggbaobkit/sorting-visualizer'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='font-weight-bold'
+                >
+                  nggbao <i className='fa fa-external-link' />
+                </a>
+              </span>
             </div>
           </Fade>
         </div>
-
-
-        {/*<div className="footer-container">*/}
-        {/*  <div className="footer-content">*/}
-        {/*    <Fade left>*/}
-        {/*      <h4>*/}
-        {/*        Copyright <i className="fa fa-copyright" /> 2020. All rights*/}
-        {/*        reserved.*/}
-        {/*      </h4>*/}
-        {/*    </Fade>*/}
-        {/*    <Fade right>*/}
-        {/*      <div>*/}
-        {/*        <span>*/}
-        {/*          Made with{" "}*/}
-        {/*          <span>*/}
-        {/*            <i className="fa fa-heart" style={{ color: "red" }} />*/}
-        {/*          </span>{" "}*/}
-        {/*          by{" "}*/}
-        {/*          <a*/}
-        {/*            href="//github.com/nggbaobkit/sorting-visualizer"*/}
-        {/*            target="_blank"*/}
-        {/*            rel="noopener noreferrer"*/}
-        {/*            className="font-weight-bold"*/}
-        {/*          >*/}
-        {/*            nggbao <i className="fa fa-external-link" />*/}
-        {/*          </a>*/}
-        {/*        </span>*/}
-        {/*      </div>*/}
-        {/*    </Fade>*/}
-        {/*  </div>*/}
-        {/*</div>*/}
       </div>
     );
   }

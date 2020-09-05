@@ -1,35 +1,39 @@
 @import '../styles/core.scss';
 
+.col {
+  // border: solid red 5px;
+}
+
+.row {
+  // border: solid blue 5px;
+}
+
+.app-container {
+  background-color: #cccccc;
+  height: 100vh;
+}
+
 .header-container {
   background-color: $primary-color;
-  //height: $header-height;
-  //padding: 8px;
-}
-
-.adjust-options-container {
-  background-color: $secondary-color;
-}
-
-.adjust-options-content {
-  display: inline-block;
-  //color: black;
-  //padding: 0 16px;
+  height: $header-height;
 }
 
 .header-content {
   display: inline-block;
   color: $text-color;
-  padding: 0 16px;
+}
+
+.control-bar-container {
+  height: $control-bar-height;
+  background-color: #aaaaaa;
+}
+
+.button-container {
+  background-color: $secondary-color;
+  // min-height: $button-container-height;
 }
 
 .app-logo {
   height: 50px;
   width: 50px;
-}
-
-.button-container {
-  margin: auto;
-  background-color: $secondary-color;
-  text-align: center;
-  height: $button-container-height;
 }

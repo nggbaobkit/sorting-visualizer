@@ -1,16 +1,16 @@
-import React from "react";
-import { Button, Confirm } from "semantic-ui-react";
+import React from 'react';
+import { Button, Confirm } from 'semantic-ui-react';
 
-import "./SortingVisualizer.scss";
-import LogoPic from "../img/columns.png";
+import './SortingVisualizer.scss';
+import LogoPic from '../img/columns.png';
 
 import {
   getBubbleSortAnimations,
   getHeapSortAnimations,
   getMergeSortAnimations,
   getQuickSortAnimations,
-} from "../SortingAlgorithms";
-import { ArrayBar, Footer } from "../content";
+} from '../SortingAlgorithms';
+import { ArrayBar, Footer } from '../content';
 import {
   setArrayBarsToColor,
   generateRandomArray,
@@ -20,7 +20,7 @@ import {
   debounce,
   getInitialArraySize,
   getMaxArraySize,
-} from "../utils";
+} from '../utils';
 
 export default class SortingVisualizer extends React.Component {
   constructor(props) {
@@ -41,9 +41,8 @@ export default class SortingVisualizer extends React.Component {
     this.setState({ arraySize: getInitialArraySize() });
     this.setState({ maxArraySize: getMaxArraySize() });
     this.setState({ array: generateRandomArray(this.state.arraySize) });
-    this.setState( { animationSpeed: 5});
     window.addEventListener(
-      "resize",
+      'resize',
       debounce(() => {
         this.setState({ arraySize: getInitialArraySize() });
         this.setState({ maxArraySize: getMaxArraySize() });
@@ -60,6 +59,15 @@ export default class SortingVisualizer extends React.Component {
     }
   }
 
+  getAnimationSpeed() {
+    let arrayLength = this.state.array.length;
+    let speed =
+      1000 - Math.pow(arrayLength, 2) > 10
+        ? 1000 - Math.pow(arrayLength, 2)
+        : 10;
+    return speed;
+  }
+
   performAnimations(animations) {
     if (animations.length === 0) {
       this.setState({ isArraySorted: true });
@@ -67,7 +75,7 @@ export default class SortingVisualizer extends React.Component {
     }
     this.setState({ isAdjustOptionsDisabled: true });
     let swappedArray = this.state.array.slice();
-    let arrayBars = document.getElementsByClassName("array-bar");
+    let arrayBars = document.getElementsByClassName('array-bar');
     let i = 0;
 
     this.setState({
@@ -95,7 +103,7 @@ export default class SortingVisualizer extends React.Component {
           this.setState({ isAdjustOptionsDisabled: false });
           this.setState({ animationTimer: null });
         }
-      }, this.state.animationSpeed),
+      }, 5),
     });
   }
 
@@ -163,116 +171,104 @@ export default class SortingVisualizer extends React.Component {
     const { array } = this.state;
 
     return (
-      <div>
-        <div className="container-fluid d-flex header-container p-3">
-          <div className="row justify-content-center align-self-center">
-            <img className="app-logo" src={LogoPic} alt="logo" />
-            <h1 className="header-content">
-              Sorting Visualizer
-            </h1>
+      <div class='container-fluid app-container d-flex flex-column'>
+        <div class='row header-container align-items-center'>
+          <div class='col'>
+            <h1 class='header-content'>Sorting Visualizer</h1>
           </div>
         </div>
-        <div class="row">
-          <div class="col adjust-options-container d-flex justify-content-end p-1 pr-3">
-            <h4 className="adjust-options-content">
-              <i className="fas fa-sliders-h"/> Array size
-            </h4>
-            <input
-                type="range"
-                min="5"
-                max={this.state.maxArraySize}
-                value={this.state.arraySize}
-                id="adjustArraySize"
-                disabled={this.state.isAdjustOptionsDisabled ? "disabled" : ""}
-                onChange={(e) => this.setState({arraySize: e.target.value})}
-            />
-          </div>
-          <div className="col adjust-options-container d-flex p-1 pl-3">
-            <h4 className="adjust-options-content">
-              Fast
-            </h4>
-            <input
-                type="range"
-                min='5'
-                max='300'
-                value={this.state.animationSpeed}
-                id="animationSpeed"
-                disabled={this.state.isAdjustOptionsDisabled ? "disabled" : ""}
-                onChange={(e) => this.setState({animationSpeed: e.target.value})}
-            />
-            <h4 className="adjust-options-content">
-              Slow
-            </h4>
+
+        <div class='row'>
+          <div class='col control-bar-container'>
+            <h1>Control bar</h1>
           </div>
         </div>
+
         <ArrayBar array={array} />
-        <Confirm
-          open={this.state.isArraySorted}
-          header="The array is already sorted!"
-          content="You are trying to sort an already sorted array!"
-          cancelButton="Cancel"
-          confirmButton={`Generate a new array!`}
-          onCancel={() => {
-            this.setState({ isArraySorted: false });
-          }}
-          onConfirm={this.handleCreateAndSort}
-        />
-        <div className="button-container">
-          <Button
-            primary
-            disabled={this.state.isAdjustOptionsDisabled}
-            onClick={() =>
-              this.setState({
-                array: generateRandomArray(this.state.arraySize),
-              })
-            }
-          >
-            <i className="fa fa-bolt left" /> Generate new array
-          </Button>
-          <Button
-            secondary
-            disabled={this.state.isAdjustOptionsDisabled}
-            onClick={() => this.mergeSort()}
-          >
-            Merge Sort!
-          </Button>
-          <Button
-            secondary
-            disabled={this.state.isAdjustOptionsDisabled}
-            onClick={() => this.bubbleSort()}
-          >
-            Bubble Sort!
-          </Button>
-          <Button
-            secondary
-            disabled={this.state.isAdjustOptionsDisabled}
-            onClick={() => this.quickSort()}
-          >
-            Quick Sort!
-          </Button>
-          <Button
-            secondary
-            disabled={this.state.isAdjustOptionsDisabled}
-            onClick={() => this.heapSort()}
-          >
-            Heap Sort!
-          </Button>
-          <Button
-            color="red"
-            disabled={!this.state.isAdjustOptionsDisabled}
-            onClick={() => this.handleStopAnimation()}
-          >
-            <i class="fas fa-stop" /> Stop
-          </Button>
-          <Button
-            disabled={this.state.animationTimer === null}
-            color="orange"
-            onClick={() => this.handlePauseAnimation()}
-          >
-            <i class="fas fa-pause" />{" "}
-            {this.state.isSortingProcessPaused ? "Resume" : "Pause"}
-          </Button>
+
+        <div class='row pb-3 button-container text-center'>
+          <div class='col-md-3'>
+            <button
+              type='button'
+              class='btn btn-primary btn-block'
+              disabled={this.state.isAdjustOptionsDisabled}
+              onClick={() =>
+                this.setState({
+                  array: generateRandomArray(this.state.arraySize),
+                })
+              }
+            >
+              <i class='fa fa-bolt left' /> Generate
+            </button>
+          </div>
+          <div class='col-md-6'>
+            <div class='row'>
+              <div className='col d-flex'>
+                <button
+                  type='button'
+                  class='btn btn-secondary flex-grow-1'
+                  disabled={this.state.isAdjustOptionsDisabled}
+                  onClick={() => this.mergeSort()}
+                >
+                  Merge sort
+                </button>
+                <button
+                  type='button'
+                  class='btn btn-secondary flex-grow-1'
+                  disabled={this.state.isAdjustOptionsDisabled}
+                  onClick={() => this.bubbleSort()}
+                >
+                  Bubble sort
+                </button>
+              </div>
+              <div className='col d-flex'>
+                <button
+                  type='button'
+                  class='btn btn-secondary flex-grow-1'
+                  disabled={this.state.isAdjustOptionsDisabled}
+                  onClick={() => this.quickSort()}
+                >
+                  Quick sort
+                </button>
+                <button
+                  type='button'
+                  class='btn btn-secondary flex-grow-1'
+                  disabled={this.state.isAdjustOptionsDisabled}
+                  onClick={() => this.heapSort()}
+                >
+                  Heap sort
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class='col-md-3'>
+            <div class='row'>
+              <div class='col'>
+                <button
+                  type='button'
+                  class='btn btn-danger btn-block'
+                  disabled={!this.state.isAdjustOptionsDisabled}
+                  onClick={() => this.handleStopAnimation()}
+                >
+                  <i class='fas fa-stop' /> Stop
+                </button>
+              </div>
+              <div class='col'>
+                <button
+                  type='button'
+                  class='btn btn-warning btn-block'
+                  disabled={this.state.animationTimer === null}
+                  onClick={() => this.handlePauseAnimation()}
+                >
+                  <i class='fas fa-pause' />{' '}
+                  {this.state.isSortingProcessPaused ? 'Resume' : 'Pause'}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+
         <Footer />
       </div>
     );
