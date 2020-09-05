@@ -189,7 +189,7 @@ export default class SortingVisualizer extends React.Component {
           </div>
           <div className="col adjust-options-container d-flex p-1 pl-3">
             <h4 className="adjust-options-content">
-              Slow
+              Fast
             </h4>
             <input
                 type="range"
