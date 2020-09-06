@@ -1,6 +1,4 @@
 import React from 'react';
-import { Button, Confirm } from 'semantic-ui-react';
-
 import './SortingVisualizer.scss';
 import LogoPic from '../img/columns.png';
 
@@ -32,6 +30,7 @@ export default class SortingVisualizer extends React.Component {
       maxArraySize: 0,
       isAdjustOptionsDisabled: false,
       animationTimer: null,
+      animationSpeed: 0,
       isArraySorted: false,
       isSortingProcessPaused: false,
     };
@@ -41,6 +40,7 @@ export default class SortingVisualizer extends React.Component {
     this.setState({ arraySize: getInitialArraySize() });
     this.setState({ maxArraySize: getMaxArraySize() });
     this.setState({ array: generateRandomArray(this.state.arraySize) });
+    this.setState({ animationSpeed: 5 });
     window.addEventListener(
       'resize',
       debounce(() => {
@@ -103,7 +103,7 @@ export default class SortingVisualizer extends React.Component {
           this.setState({ isAdjustOptionsDisabled: false });
           this.setState({ animationTimer: null });
         }
-      }, 5),
+      }, this.state.animationSpeed),
     });
   }
 
@@ -173,14 +173,62 @@ export default class SortingVisualizer extends React.Component {
     return (
       <div class='container-fluid app-container d-flex flex-column'>
         <div class='row header-container align-items-center'>
-          <div class='col'>
+          <div class='col d-flex align-items-center'>
+            <img
+              style={{ maxWidth: '50px', minWidth: '50px' }}
+              src={LogoPic}
+              alt='logo'
+            />
             <h1 class='header-content'>Sorting Visualizer</h1>
           </div>
         </div>
 
-        <div class='row'>
-          <div class='col control-bar-container'>
-            <h1>Control bar</h1>
+        <div class='row justify-content-center align-items-center control-bar-container'>
+          <div class='col-md-3 p-2 d-flex justify-content-center'>
+            <div>
+              <i
+                class='fas fa-search-minus'
+                style={{ fontSize: '1.5em', color: 'white' }}
+              ></i>{' '}
+              <input
+                type='range'
+                style={{ width: '100px' }}
+                min='5'
+                max={this.state.maxArraySize}
+                value={this.state.arraySize}
+                id='adjustArraySize'
+                disabled={this.state.isAdjustOptionsDisabled ? 'disabled' : ''}
+                onChange={(e) => this.setState({ arraySize: e.target.value })}
+              />{' '}
+              <i
+                class='fas fa-search-plus'
+                style={{ fontSize: '1.5em', color: 'white' }}
+              ></i>
+            </div>
+          </div>
+          <div class='col-md-3 p-2 d-flex justify-content-center'>
+            <div>
+              <i
+                class='fas fa-plane'
+                style={{ fontSize: '1.5em', color: 'white' }}
+              ></i>{' '}
+              <input
+                type='range'
+                style={{ width: '100px' }}
+                min='5'
+                max='300'
+                value={this.state.animationSpeed}
+                id='animationSpeed'
+                disabled={this.state.isAdjustOptionsDisabled ? 'disabled' : ''}
+                onChange={(e) =>
+                  this.setState({ animationSpeed: e.target.value })
+                }
+              />{' '}
+              <i
+                class='fas fa-plane-slash'
+                style={{ fontSize: '1.5em', color: 'white' }}
+              ></i>
+            </div>
           </div>
         </div>
 
@@ -251,7 +299,7 @@ export default class SortingVisualizer extends React.Component {
                   disabled={!this.state.isAdjustOptionsDisabled}
                   onClick={() => this.handleStopAnimation()}
                 >
-                  <i class='fas fa-stop' /> Stop
+                  <i class='fas fa-stop' />
                 </button>
               </div>
               <div class='col d-flex'>
@@ -261,8 +309,11 @@ export default class SortingVisualizer extends React.Component {
                   disabled={this.state.animationTimer === null}
                   onClick={() => this.handlePauseAnimation()}
                 >
-                  <i class='fas fa-pause' />{' '}
-                  {this.state.isSortingProcessPaused ? 'Resume' : 'Pause'}
+                  {this.state.isSortingProcessPaused ? (
+                    <i class='fas fa-play' />
+                  ) : (
+                    <i class='fas fa-pause' />
+                  )}
                 </button>
               </div>
             </div>

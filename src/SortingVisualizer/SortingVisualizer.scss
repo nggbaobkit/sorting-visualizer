@@ -20,13 +20,11 @@
 }
 
 .control-bar-container {
-  height: $control-bar-height;
-  background-color: #aaaaaa;
+  background-color: $primary-color;
 }
 
 .button-container {
   background-color: $secondary-color;
-  // min-height: $button-container-height;
 }
 
 .app-logo {

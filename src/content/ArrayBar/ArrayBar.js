@@ -4,6 +4,7 @@ import './ArrayBar.scss';
 
 export const ArrayBar = (props) => {
   const array = props.array;
+  console.log($(document).width());
   const numWidth = Math.floor($(document).width() / (array.length * 3));
   const width = `${numWidth}px`;
   const numMargin =
