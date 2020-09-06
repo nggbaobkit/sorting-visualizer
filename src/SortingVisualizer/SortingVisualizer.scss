@@ -1,35 +1,18 @@
 @import '../styles/core.scss';
 
-.header-container {
+.btn {
+  margin: 2px;
+}
+
+.app-container {
+  background-color: #cccccc;
+  height: 100vh;
+}
+
+.control-bar-container {
   background-color: $primary-color;
-  //height: $header-height;
-  //padding: 8px;
-}
-
-.adjust-options-container {
-  background-color: $secondary-color;
-}
-
-.adjust-options-content {
-  display: inline-block;
-  //color: black;
-  //padding: 0 16px;
-}
-
-.header-content {
-  display: inline-block;
-  color: $text-color;
-  padding: 0 16px;
-}
-
-.app-logo {
-  height: 50px;
-  width: 50px;
 }
 
 .button-container {
-  margin: auto;
   background-color: $secondary-color;
-  text-align: center;
-  height: $button-container-height;
 }

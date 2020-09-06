@@ -41,23 +41,25 @@ export const ArrayBar = (props) => {
   const fontSize = `${numFont}px`;
 
   return (
-    <div className="bar-container">
-      {array.map((value, idx) => (
-        <div
-          className="array-bar"
-          key={idx}
-          style={{
-            height: `${value}px`,
-            width: width,
-            marginLeft: margin,
-            marginRight: margin,
-            color: color,
-            fontSize: fontSize,
-          }}
-        >
-          {value}
-        </div>
-      ))}
+    <div className="row flex-grow-1 bar-container">
+      <div className="col">
+        {array.map((value, idx) => (
+          <div
+            className="array-bar"
+            key={idx}
+            style={{
+              height: `${value}px`,
+              width: width,
+              marginLeft: margin,
+              marginRight: margin,
+              color: color,
+              fontSize: fontSize,
+            }}
+          >
+            {value}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
