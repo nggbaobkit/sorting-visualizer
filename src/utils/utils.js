@@ -1,12 +1,12 @@
 export function setArrayBarsToColor(color) {
-  let arrayBars = document.getElementsByClassName('array-bar');
+  let arrayBars = document.getElementsByClassName("array-bar");
   for (let i = 0; i < arrayBars.length; i++) {
     arrayBars[i].style.backgroundColor = color;
   }
 }
 
 export function generateRandomArray(arrSize) {
-  let barContainers = document.getElementsByClassName('bar-container');
+  let barContainers = document.getElementsByClassName("bar-container");
   let maxVal = barContainers[0].clientHeight;
   const array = [];
   for (let i = 0; i < arrSize; i++) {

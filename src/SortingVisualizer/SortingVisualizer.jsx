@@ -1,13 +1,13 @@
-import React from 'react';
-import './SortingVisualizer.scss';
+import React from "react";
+import "./SortingVisualizer.scss";
 
 import {
   getBubbleSortAnimations,
   getHeapSortAnimations,
   getMergeSortAnimations,
   getQuickSortAnimations,
-} from '../SortingAlgorithms';
-import { ArrayBar, Footer, Header, MessageSnackbar } from '../content';
+} from "../SortingAlgorithms";
+import { ArrayBar, Footer, Header, MessageSnackbar } from "../content";
 import {
   setArrayBarsToColor,
   generateRandomArray,
@@ -17,7 +17,7 @@ import {
   debounce,
   getInitialArraySize,
   getMaxArraySize,
-} from '../utils';
+} from "../utils";
 
 export default class SortingVisualizer extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ export default class SortingVisualizer extends React.Component {
     this.setState({ array: generateRandomArray(this.state.arraySize) });
     this.setState({ animationSpeed: 5 });
     window.addEventListener(
-      'resize',
+      "resize",
       debounce(() => {
         this.setState({ arraySize: getInitialArraySize() });
         this.setState({ maxArraySize: getMaxArraySize() });
@@ -76,7 +76,7 @@ export default class SortingVisualizer extends React.Component {
     }
     this.setState({ isAdjustOptionsDisabled: true });
     let swappedArray = this.state.array.slice();
-    let arrayBars = document.getElementsByClassName('array-bar');
+    let arrayBars = document.getElementsByClassName("array-bar");
     let i = 0;
 
     this.setState({
@@ -169,67 +169,67 @@ export default class SortingVisualizer extends React.Component {
     const { array } = this.state;
 
     return (
-      <div class='container-fluid app-container d-flex flex-column'>
+      <div className="container-fluid app-container d-flex flex-column">
         <Header />
 
         <MessageSnackbar open={this.state.isSnackbarOpened} />
 
-        <div class='row justify-content-center align-items-center control-bar-container'>
-          <div class='col-md-3 p-2 d-flex justify-content-center'>
+        <div className="row justify-content-center align-items-center control-bar-container">
+          <div className="col-md-3 p-2 d-flex justify-content-center">
             <div>
               <i
-                class='fas fa-search-minus'
-                style={{ fontSize: '1.5em', color: 'white' }}
-              ></i>{' '}
+                className="fas fa-search-minus"
+                style={{ fontSize: "1.5em", color: "white" }}
+              />{" "}
               <input
-                type='range'
-                style={{ width: '100px' }}
-                min='5'
+                type="range"
+                style={{ width: "100px" }}
+                min="5"
                 max={this.state.maxArraySize}
                 value={this.state.arraySize}
-                id='adjustArraySize'
-                disabled={this.state.isAdjustOptionsDisabled ? 'disabled' : ''}
+                id="adjustArraySize"
+                disabled={this.state.isAdjustOptionsDisabled ? "disabled" : ""}
                 onChange={(e) => this.setState({ arraySize: e.target.value })}
-              />{' '}
+              />{" "}
               <i
-                class='fas fa-search-plus'
-                style={{ fontSize: '1.5em', color: 'white' }}
-              ></i>
+                className="fas fa-search-plus"
+                style={{ fontSize: "1.5em", color: "white" }}
+              />
             </div>
           </div>
-          <div class='col-md-3 p-2 d-flex justify-content-center'>
+          <div className="col-md-3 p-2 d-flex justify-content-center">
             <div>
               <i
-                class='fas fa-plane'
-                style={{ fontSize: '1.5em', color: 'white' }}
-              ></i>{' '}
+                className="fas fa-plane"
+                style={{ fontSize: "1.5em", color: "white" }}
+              />{" "}
               <input
-                type='range'
-                style={{ width: '100px' }}
-                min='5'
-                max='300'
+                type="range"
+                style={{ width: "100px" }}
+                min="5"
+                max="300"
                 value={this.state.animationSpeed}
-                id='animationSpeed'
-                disabled={this.state.isAdjustOptionsDisabled ? 'disabled' : ''}
+                id="animationSpeed"
+                disabled={this.state.isAdjustOptionsDisabled ? "disabled" : ""}
                 onChange={(e) =>
                   this.setState({ animationSpeed: e.target.value })
                 }
-              />{' '}
+              />{" "}
               <i
-                class='fas fa-plane-slash'
-                style={{ fontSize: '1.5em', color: 'white' }}
-              ></i>
+                className="fas fa-plane-slash"
+                style={{ fontSize: "1.5em", color: "white" }}
+              />
             </div>
           </div>
         </div>
 
         <ArrayBar array={array} />
 
-        <div class='row pb-3 button-container justify-content-center align-items-center'>
-          <div class='col-md-2 d-flex'>
+        <div className="row pb-3 button-container justify-content-center align-items-center">
+          <div className="col-md-2 d-flex">
             <button
-              type='button'
-              class='btn btn-primary flex-grow-1'
+              type="button"
+              className="btn btn-primary flex-grow-1"
               disabled={this.state.isAdjustOptionsDisabled}
               onClick={() =>
                 this.setState({
@@ -237,41 +237,41 @@ export default class SortingVisualizer extends React.Component {
                 })
               }
             >
-              <i class='fa fa-bolt left' /> Generate
+              <i className="fa fa-bolt left" /> Generate
             </button>
           </div>
-          <div class='col-md-5'>
-            <div class='row no-gutters'>
-              <div className='col d-flex'>
+          <div className="col-md-5">
+            <div className="row no-gutters">
+              <div className="col d-flex">
                 <button
-                  type='button'
-                  class='btn btn-secondary flex-grow-1'
+                  type="button"
+                  className="btn btn-secondary flex-grow-1"
                   disabled={this.state.isAdjustOptionsDisabled}
                   onClick={() => this.mergeSort()}
                 >
                   Merge sort
                 </button>
                 <button
-                  type='button'
-                  class='btn btn-secondary flex-grow-1'
+                  type="button"
+                  className="btn btn-secondary flex-grow-1"
                   disabled={this.state.isAdjustOptionsDisabled}
                   onClick={() => this.bubbleSort()}
                 >
                   Bubble sort
                 </button>
               </div>
-              <div className='col d-flex'>
+              <div className="col d-flex">
                 <button
-                  type='button'
-                  class='btn btn-secondary flex-grow-1'
+                  type="button"
+                  className="btn btn-secondary flex-grow-1"
                   disabled={this.state.isAdjustOptionsDisabled}
                   onClick={() => this.quickSort()}
                 >
                   Quick sort
                 </button>
                 <button
-                  type='button'
-                  class='btn btn-secondary flex-grow-1'
+                  type="button"
+                  className="btn btn-secondary flex-grow-1"
                   disabled={this.state.isAdjustOptionsDisabled}
                   onClick={() => this.heapSort()}
                 >
@@ -281,29 +281,29 @@ export default class SortingVisualizer extends React.Component {
             </div>
           </div>
 
-          <div class='col-md-2'>
-            <div class='row no-gutters'>
-              <div class='col d-flex'>
+          <div className="col-md-2">
+            <div className="row no-gutters">
+              <div className="col d-flex">
                 <button
-                  type='button'
-                  class='btn btn-danger flex-grow-1'
+                  type="button"
+                  className="btn btn-danger flex-grow-1"
                   disabled={!this.state.isAdjustOptionsDisabled}
                   onClick={() => this.handleStopAnimation()}
                 >
-                  <i class='fas fa-stop' />
+                  <i className="fas fa-stop" />
                 </button>
               </div>
-              <div class='col d-flex'>
+              <div className="col d-flex">
                 <button
-                  type='button'
-                  class='btn btn-warning flex-grow-1'
+                  type="button"
+                  className="btn btn-warning flex-grow-1"
                   disabled={this.state.animationTimer === null}
                   onClick={() => this.handlePauseAnimation()}
                 >
                   {this.state.isSortingProcessPaused ? (
-                    <i class='fas fa-play' />
+                    <i className="fas fa-play" />
                   ) : (
-                    <i class='fas fa-pause' />
+                    <i className="fas fa-pause" />
                   )}
                 </button>
               </div>

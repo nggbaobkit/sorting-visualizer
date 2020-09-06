@@ -1,6 +1,6 @@
-import React from 'react';
-import $ from 'jquery';
-import './ArrayBar.scss';
+import React from "react";
+import $ from "jquery";
+import "./ArrayBar.scss";
 
 export const ArrayBar = (props) => {
   const array = props.array;
@@ -23,7 +23,7 @@ export const ArrayBar = (props) => {
       ? 2.5
       : 2;
   const margin = `${numMargin}px`;
-  const color = numWidth > 20 ? 'white' : 'transparent';
+  const color = numWidth > 20 ? "white" : "transparent";
   const numFont =
     numWidth > 70
       ? 23
@@ -41,11 +41,11 @@ export const ArrayBar = (props) => {
   const fontSize = `${numFont}px`;
 
   return (
-    <div class='row flex-grow-1 bar-container'>
-      <div class='col'>
+    <div className="row flex-grow-1 bar-container">
+      <div className="col">
         {array.map((value, idx) => (
           <div
-            class='array-bar'
+            className="array-bar"
             key={idx}
             style={{
               height: `${value}px`,
