@@ -128,13 +128,6 @@ export default class SortingVisualizer extends React.Component {
     this.performAnimations(animations);
   };
 
-  handleCreate = () => {
-    this.setState({ isArraySorted: false });
-    this.setState({
-      array: generateRandomArray(this.state.arraySize),
-    });
-  };
-
   handleCreateAndSort = () => {
     this.setState({ isArraySorted: false });
     this.setState({

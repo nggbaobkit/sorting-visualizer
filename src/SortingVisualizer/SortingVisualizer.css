@@ -1,0 +1,24 @@
+:export {
+  primaryColor: #00203fcc;
+  secondaryColor: #d7f0e599;
+  sortingColor: #f2aa4c;
+}
+
+.btn {
+  margin: 2px;
+}
+
+.app-container {
+  background-color: #cccccc;
+  height: 100vh;
+}
+
+.control-bar-container {
+  background-color: #00203fcc;
+}
+
+.button-container {
+  background-color: #d7f0e599;
+}
+
+/*# sourceMappingURL=SortingVisualizer.css.map */
