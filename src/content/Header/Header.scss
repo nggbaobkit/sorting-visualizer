@@ -1,0 +1,16 @@
+@import 'src/styles/core';
+
+.header-container {
+  background-color: $primary-color;
+  height: $header-height;
+}
+
+.header-content {
+  display: inline-block;
+  color: $text-color;
+}
+
+.app-logo {
+  height: 50px;
+  width: 50px;
+}
