@@ -9,25 +9,10 @@
   height: 100vh;
 }
 
-.header-container {
-  background-color: $primary-color;
-  height: $header-height;
-}
-
-.header-content {
-  display: inline-block;
-  color: $text-color;
-}
-
 .control-bar-container {
   background-color: $primary-color;
 }
 
 .button-container {
   background-color: $secondary-color;
-}
-
-.app-logo {
-  height: 50px;
-  width: 50px;
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import './SortingVisualizer.scss';
-import LogoPic from '../img/columns.png';
 
 import {
   getBubbleSortAnimations,
@@ -8,7 +7,7 @@ import {
   getMergeSortAnimations,
   getQuickSortAnimations,
 } from '../SortingAlgorithms';
-import { ArrayBar, Footer } from '../content';
+import { ArrayBar, Footer, Header } from '../content';
 import {
   setArrayBarsToColor,
   generateRandomArray,
@@ -172,16 +171,7 @@ export default class SortingVisualizer extends React.Component {
 
     return (
       <div class='container-fluid app-container d-flex flex-column'>
-        <div class='row header-container align-items-center'>
-          <div class='col d-flex align-items-center'>
-            <img
-              style={{ maxWidth: '50px', minWidth: '50px' }}
-              src={LogoPic}
-              alt='logo'
-            />
-            <h1 class='header-content'>Sorting Visualizer</h1>
-          </div>
-        </div>
+        <Header />
 
         <div class='row justify-content-center align-items-center control-bar-container'>
           <div class='col-md-3 p-2 d-flex justify-content-center'>
