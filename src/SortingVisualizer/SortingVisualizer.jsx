@@ -1,6 +1,7 @@
 import React from 'react';
 import './SortingVisualizer.scss';
-
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import {
   getBubbleSortAnimations,
   getHeapSortAnimations,
@@ -19,6 +20,10 @@ import {
   getMaxArraySize,
 } from '../utils';
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant='filled' {...props} />;
+}
+
 export default class SortingVisualizer extends React.Component {
   constructor(props) {
     super(props);
@@ -32,6 +37,7 @@ export default class SortingVisualizer extends React.Component {
       animationSpeed: 0,
       isArraySorted: false,
       isSortingProcessPaused: false,
+      isSnackbarOpened: false,
     };
   }
 
@@ -70,6 +76,7 @@ export default class SortingVisualizer extends React.Component {
   performAnimations(animations) {
     if (animations.length === 0) {
       this.setState({ isArraySorted: true });
+      this.setState({ isSnackbarOpened: true });
       return;
     }
     this.setState({ isAdjustOptionsDisabled: true });
@@ -166,12 +173,30 @@ export default class SortingVisualizer extends React.Component {
     this.setState({ isSortingProcessPaused: false });
   };
 
+  handleCloseSnackbar = () => {
+    this.setState({ isSnackbarOpened: false });
+  };
+
   render() {
     const { array } = this.state;
 
     return (
       <div class='container-fluid app-container d-flex flex-column'>
         <Header />
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          open={this.state.isSnackbarOpened}
+          autoHideDuration={2000}
+          onClose={this.handleCloseSnackbar}
+        >
+          <Alert onClose={this.handleCloseSnackbar} severity='error'>
+            Array is already sorted!
+          </Alert>
+        </Snackbar>
 
         <div class='row justify-content-center align-items-center control-bar-container'>
           <div class='col-md-3 p-2 d-flex justify-content-center'>
