@@ -72,6 +72,9 @@ export default class SortingVisualizer extends React.Component {
     if (animations.length === 0) {
       this.setState({ isArraySorted: true });
       this.setState({ isSnackbarOpened: true });
+      setInterval(() => {
+        this.setState({ isSnackbarOpened: false });
+      }, 2000);
       return;
     }
     this.setState({ isAdjustOptionsDisabled: true });
@@ -161,10 +164,6 @@ export default class SortingVisualizer extends React.Component {
     this.setState({ isSortingProcessPaused: false });
   };
 
-  handleCloseSnackbar = () => {
-    this.setState({ isSnackbarOpened: false });
-  };
-
   render() {
     const { array } = this.state;
 
@@ -237,7 +236,7 @@ export default class SortingVisualizer extends React.Component {
                 })
               }
             >
-              <i className="fa fa-bolt left" /> Generate
+              <i className="fa fa-bolt left" /> Generate new array
             </button>
           </div>
           <div className="col-md-5">
