@@ -186,11 +186,11 @@ export default class SortingVisualizer extends React.Component {
 
         <ArrayBar array={array} />
 
-        <div class='row pb-3 button-container text-center'>
-          <div class='col-md-3'>
+        <div class='row pb-3 button-container justify-content-center align-items-center'>
+          <div class='col-md-2 d-flex'>
             <button
               type='button'
-              class='btn btn-primary btn-block'
+              class='btn btn-primary flex-grow-1'
               disabled={this.state.isAdjustOptionsDisabled}
               onClick={() =>
                 this.setState({
@@ -201,8 +201,8 @@ export default class SortingVisualizer extends React.Component {
               <i class='fa fa-bolt left' /> Generate
             </button>
           </div>
-          <div class='col-md-6'>
-            <div class='row'>
+          <div class='col-md-5'>
+            <div class='row no-gutters'>
               <div className='col d-flex'>
                 <button
                   type='button'
@@ -242,22 +242,22 @@ export default class SortingVisualizer extends React.Component {
             </div>
           </div>
 
-          <div class='col-md-3'>
-            <div class='row'>
-              <div class='col'>
+          <div class='col-md-2'>
+            <div class='row no-gutters'>
+              <div class='col d-flex'>
                 <button
                   type='button'
-                  class='btn btn-danger btn-block'
+                  class='btn btn-danger flex-grow-1'
                   disabled={!this.state.isAdjustOptionsDisabled}
                   onClick={() => this.handleStopAnimation()}
                 >
                   <i class='fas fa-stop' /> Stop
                 </button>
               </div>
-              <div class='col'>
+              <div class='col d-flex'>
                 <button
                   type='button'
-                  class='btn btn-warning btn-block'
+                  class='btn btn-warning flex-grow-1'
                   disabled={this.state.animationTimer === null}
                   onClick={() => this.handlePauseAnimation()}
                 >
