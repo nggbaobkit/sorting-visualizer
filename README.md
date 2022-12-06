@@ -17,7 +17,7 @@ To deploy (new changes on) `master` branch to Github Page, run the following com
 
 ```
 $ git checkout master
-$ git push origin master
+$ git pull origin master
 $ npm run deploy
 ```
 
