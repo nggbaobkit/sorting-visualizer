@@ -4,9 +4,17 @@ I wanted to understand sorting algorithms better and practicing ReactJS, HTML, S
 
 The application is deployed [here](http://nggbaobkit.github.io/sorting-visualizer). Feel free to pay a vist!
 
-### How to start on local machine
+## To start on local machine
 
 ```
 $ npm install
 $ npm start
+```
+
+## To deploy
+
+To deploy (new changes on) `master` branch to Github Page, run the following command:
+
+```
+$ npm run deploy
 ```
