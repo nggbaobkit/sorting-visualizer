@@ -16,5 +16,14 @@ $ npm start
 To deploy (new changes on) `master` branch to Github Page, run the following command:
 
 ```
+$ git checkout master
+$ git push origin master
 $ npm run deploy
 ```
+
+To check deployment status: https://github.com/nggbaobkit/sorting-visualizer/deployments
+
+## To merge all dependabot PRs into one PR
+
+On GitHub, click the 'Actions' tab at the top of your repository, then under 'All workflows' on the left click 'Combine PRs', and finally on the righthand side, click 'Run workflow'.
+Note: You might need to set `Only combine PRs that are green (status is success)` to false (idk why).
